@@ -3,6 +3,7 @@
 #include <functional>
 #include <unordered_map>
 #include <queue>
+#include <memory>
 #include "blob.h"
 
 namespace msg {
@@ -19,10 +20,13 @@ enum MsgType {
 
 struct Message {
   MsgType type;
+  int from;
+  int to;
   Blob blob;
 };
 
-typedef Function<void(Message*)> MessageHandler;
+typedef std::shared_ptr<Message> MessagePtr;
+typedef Function<void(MessagePtr)> MessageHandler;
 
 class Actor {
   public:

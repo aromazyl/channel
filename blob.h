@@ -9,16 +9,26 @@
 #define BLOB_H
 
 #include <memory>
+#include "memory_pool.h"
 
 namespace blob {
-template <typename DataType>
 class Blob {
   public:
     Blob(size_t size);
     ~Blob();
+    Blob(const Blob& blob);
+    Blob& operator=(const Blob& blob);
+
   public:
+    void CopyFrom(char* mem, size_t len);
+
+  public:
+    char* data();
+    size_t size();
+
   private:
     char* memory_;
+    size_t size_;
 };
 };
 
