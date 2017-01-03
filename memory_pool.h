@@ -11,11 +11,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unordered_map>
+#include <memory>
 #include <atomic>
+#include <mutex>
 
 namespace zyl {
 
-const int kPointerSize = sizeof(void*);
+namespace {
+  const int kPointerSize = sizeof(void*);
+}
 
 class Allocator;
 class MemoryBlock;
@@ -58,7 +62,6 @@ class MemoryBlock {
     ~MemoryBlock();
   public:
     char* data();
-    char* Ref();
     void Link();
     void UnLink();
   public:
@@ -66,6 +69,7 @@ class MemoryBlock {
 
   private:
     char* data_;
+    BlockList* list_;
     std::atomic<int> ref_ = 1;
 };
 
