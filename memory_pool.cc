@@ -9,6 +9,9 @@
 
 
 namespace zyl {
+namespace {
+  const int kPointerSize = sizeof(void*);
+}
 char* Allocator::Alloc(size_t size) {
   if (size < 32) size = 32;
   else {

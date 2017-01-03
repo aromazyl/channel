@@ -17,10 +17,6 @@
 
 namespace zyl {
 
-namespace {
-  const int kPointerSize = sizeof(void*);
-}
-
 class Allocator;
 class MemoryBlock;
 class BlockList;
@@ -51,6 +47,7 @@ class BlockList {
     ~BlockList();
     char* Pop();
     void Push(MemoryBlock*);
+
   private:
     size_t size_;
     MemoryBlock* free_;
@@ -60,12 +57,14 @@ class MemoryBlock {
   public:
     MemoryBlock(size_t size, BlockList* list);
     ~MemoryBlock();
+
   public:
     char* data();
     void Link();
     void UnLink();
+
   public:
-    MemoryBlock* next;
+    MemoryBlock* next = nullptr;
 
   private:
     char* data_;
