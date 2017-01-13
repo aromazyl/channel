@@ -5,7 +5,7 @@ project(test)
 
 add_definitions('-g')
 add_definitions('-Wall')
-#add_definitions('-std=c++11')
+add_definitions('-std=c++11')
 
 add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cc)
 
