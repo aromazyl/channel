@@ -45,6 +45,7 @@ TEST_F(MemoryTest, AllocatorAllocTest) {
   EXPECT_EQ(allocator->pool_.size(), static_cast<size_t>(2));
 }
 
-TEST_F(MemoryTest, FreeAllocTest)
+TEST_F(MemoryTest, FreeAllocTest) {
+}
 
 #endif /* !MEMORY_POOL_TEST_H */

@@ -14,17 +14,19 @@
 namespace blob {
 class Blob {
   public:
-    Blob(size_t size);
-    ~Blob();
-    Blob(const Blob& blob);
+    explicit Blob(size_t size);
+    explicit Blob(const Blob& blob);
     Blob& operator=(const Blob& blob);
+    ~Blob();
 
   public:
-    void CopyFrom(char* mem, size_t len);
+    int CopyFrom(char* mem, size_t len);
+    int CopyTo(char* mem, size_t len) const;
 
   public:
-    char* data();
-    size_t size();
+    char* data() const;
+    size_t size() const;
+    void resize(size_t size);
 
   private:
     char* memory_;
