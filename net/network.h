@@ -15,9 +15,9 @@
 namespace net {
 
 enum NetType {
-  MPI = 0;
-  ZMQ = 1;
-  SOCKET = 2;
+  MPI = 0,
+  ZMQ = 1,
+  SOCKET = 2,
 };
 
 class ZMQ_NetWork;
@@ -37,8 +37,8 @@ class NetWork {
     virtual void Finalize() = 0;
     virtual void Bind(int rank) = 0;
     virtual void Connect(int rank) = 0;
-    virtual void Send(int rank, const MessagePtr& msg) = 0;
-    virtual void Receive(int rank, MessagePtr& msg) = 0;
+    virtual void Send(int rank, const msg::MessagePtr& msg) = 0;
+    virtual void Receive(int rank, msg::MessagePtr& msg) = 0;
     virtual int NodeNums() const = 0;
     virtual void RegisterNetNode(int rank, const std::string& name) = 0;
 

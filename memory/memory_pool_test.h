@@ -14,7 +14,7 @@
 
 #include "memory_pool.h"
 
-using namespace mem;
+namespace mem {
 
 class MemoryTest : public ::testing::Test {
   public:
@@ -37,7 +37,7 @@ TEST_F(MemoryTest, AllocatorConstructionTest) {
 TEST_F(MemoryTest, AllocatorAllocTest) {
   char* tmp = allocator->Alloc(100);
   ASSERT_TRUE(tmp);
-  ASSERT_TRUE(allocator->pool_.count(tmp) == 1);
+  ASSERT_TRUE(static_cast<bool>(allocator->pool_.count(128)));
   allocator->Free(tmp);
   char* t2 = allocator->Alloc(110);
   ASSERT_TRUE(tmp == t2);
@@ -46,6 +46,7 @@ TEST_F(MemoryTest, AllocatorAllocTest) {
 }
 
 TEST_F(MemoryTest, FreeAllocTest) {
+}
 }
 
 #endif /* !MEMORY_POOL_TEST_H */

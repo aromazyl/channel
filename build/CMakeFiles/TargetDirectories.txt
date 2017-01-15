@@ -1,0 +1,4 @@
+/home/scyl/code/channel/build/CMakeFiles/edit_cache.dir
+/home/scyl/code/channel/build/CMakeFiles/rebuild_cache.dir
+/home/scyl/code/channel/build/CMakeFiles/channel-symlink.dir
+/home/scyl/code/channel/build/CMakeFiles/channel.dir

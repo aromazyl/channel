@@ -6,8 +6,9 @@
  */
 
 #include <gtest/gtest.h>
-#include "net/zmq_network_test.h"
-#include "memory/memory_pool_test.h"
+// #include "../net/zmq_network_test.h"
+#include "../memory/blob_test.h"
+#include "../memory/memory_pool_test.h"
 
 
 int main(int argc, char* argv[]) {

@@ -18,7 +18,7 @@ class ZMQ_NetWork : public NetWork {
     void Bind(int rank);
     void Connect(int rank);
     void Send(int rank);
-    void Receive(int rank, MessagePtr& msg);
+    void Receive(int rank, msg::MessagePtr& msg);
     int NodeNums() const;
     void RegisterNetNode(int rank, const std::string& name);
   private:

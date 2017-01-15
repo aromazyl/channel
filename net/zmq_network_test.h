@@ -13,6 +13,7 @@
 
 #include <gtest/gtest.h>
 
+namespace net {
 
 class ZMQNETWORKTesting : public ::testing::Test {
   public:
@@ -45,4 +46,5 @@ TEST_F(ZMQNETWORKTesting, NodeNumsZMQ_NETWORK_LOCAL) {
 }
 
 TEST_F(ZMQNETWORKTesting, RegisterNetNodeZMQ_NETWORK_LOCAL) {
+}
 }
