@@ -38,4 +38,6 @@ TEST_F(BlobTest, ResizeTest) {
   EXPECT_EQ(blob->size(), 128);
 }
 
+}
+
 #endif /* !BLOB_TEST_H */

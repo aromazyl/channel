@@ -14,25 +14,23 @@
 
 #include "memory_pool.h"
 
-namespace mem {
-
 class MemoryTest : public ::testing::Test {
   public:
     virtual void SetUp() {
-      allocator = Allocator::Get();
+      allocator = mem::Allocator::Get();
       block = NULL;
       list = NULL;
     }
     virtual void TearDown() {}
 
   private:
-    Allocator* allocator;
-    MemoryBlock* block;
-    BlockList* list;
+    mem::Allocator* allocator;
+    mem::MemoryBlock* block;
+    mem::BlockList* list;
 };
 
 TEST_F(MemoryTest, AllocatorConstructionTest) {
-}
+};
 
 TEST_F(MemoryTest, AllocatorAllocTest) {
   char* tmp = allocator->Alloc(100);
@@ -43,10 +41,9 @@ TEST_F(MemoryTest, AllocatorAllocTest) {
   ASSERT_TRUE(tmp == t2);
   tmp = allocator->Alloc(0);
   EXPECT_EQ(allocator->pool_.size(), static_cast<size_t>(2));
-}
+};
 
 TEST_F(MemoryTest, FreeAllocTest) {
-}
-}
+};
 
 #endif /* !MEMORY_POOL_TEST_H */
