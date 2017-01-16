@@ -19,8 +19,8 @@ namespace net {
 struct ZMQ_Entity {
   int remote_rank;
   std::string addr;
-  zmq_socket* sender = NULL;
-  zmq_socket* receiver = NULL;
+  void* sender = NULL;
+  void* receiver = NULL;
 };
 
 using ZMQEntityPtr = std::shared_ptr<ZMQ_Entity>;
@@ -33,9 +33,9 @@ class ZMQ_NetWork : public NetWork {
 
     void Bind(int rank);
 
-    void Connect(int rank);
+    void Connect(int rank, const std::string& port);
 
-    void Send(int rank);
+    void Send(int rank, msg::MessagePtr& msg);
 
     void Receive(int rank, msg::MessagePtr& msg);
 
@@ -45,7 +45,10 @@ class ZMQ_NetWork : public NetWork {
 
   private:
     std::unordered_map<int, ZMQEntityPtr> node_table_;
+
     ZMQ_Entity self_entity_;
+
+    void* context_ = NULL;
 };
 }
 
