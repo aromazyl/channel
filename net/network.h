@@ -36,7 +36,7 @@ class NetWork {
     virtual void Init(int* argc, char** argv) = 0;
     virtual void Finalize() = 0;
     virtual void Bind(int rank) = 0;
-    virtual void Connect(int rank) = 0;
+    virtual void Connect(int rank, const std::string& port) = 0;
     virtual void Send(int rank, const msg::MessagePtr& msg) = 0;
     virtual void Receive(int rank, msg::MessagePtr& msg) = 0;
     virtual int NodeNums() const = 0;
