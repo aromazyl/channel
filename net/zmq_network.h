@@ -17,7 +17,7 @@
 namespace net {
 
 struct ZMQ_Entity {
-  int remote_rank;
+  int rank;
   std::string addr;
   void* sender = NULL;
   void* receiver = NULL;

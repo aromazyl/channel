@@ -6,6 +6,7 @@
  */
 
 #include "zmq_network.h"
+#include "../base/string_printf.hpp"
 #include <glog/logging.h>
 
 
@@ -70,7 +71,13 @@ namespace net {
 
   void ZMQ_NetWork::RegisterNetNode(int rank, const std::string& addr) {
     if (node_table_.count(rank)) {
-      LOG(ERROR) << ""
+      LOG(ERROR) << base::StringPrintf("rank:%d, exist in node_table\n", rank);
+      return;
     }
+    node_table_[rank].reset(new ZMQ_Entity);
+    node_table_[rank]->rank = rank;
+    node_table_[rank]->addr = addr;
+    node_table_[rank]->sender = NULL;
+    node_table_[rank]->receiver = NULL;
   }
 }
