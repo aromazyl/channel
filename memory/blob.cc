@@ -12,23 +12,26 @@
 
 
 namespace blob {
-explicit Blob::Blob(size_t size) {
+
+Blob::Blob() : memory_(NULL), size_(0) {}
+
+Blob::Blob(size_t size) {
   this->resize(size);
 }
 
 Blob::~Blob() {
-  this->memory_ = mem::Allocator::Get()->Free(memory_);
+  mem::Allocator::Get()->Free(memory_);
   size_ = 0;
 }
 
-explicit Blob::Blob(const Blob& blob) {
-  mem::Allocator::Get()->Ref(blob.memory_);
+Blob::Blob(const Blob& blob) {
+  mem::Allocator::Get()->Refer(blob.memory_);
   this->memory_ = blob.memory_;
-  this->size = blob.size_;
+  this->size_ = blob.size_;
 }
 
-Blob& operator=(const Blob& blob) {
-  this->CopyFrom(blob.memory_, blob.size_);
+Blob& Blob::operator=(const Blob& blob) {
+  this->CopyFrom(blob.data(), blob.size());
   return *this;
 }
 
@@ -48,6 +51,6 @@ int Blob::CopyTo(char* mem, size_t len) const {
 
 char* Blob::data() const { return memory_; }
 
-size_t size() const { return size_; }
+size_t Blob::size() const { return size_; }
 
 }

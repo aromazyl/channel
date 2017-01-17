@@ -14,6 +14,7 @@
 namespace blob {
 class Blob {
   public:
+    Blob();
     explicit Blob(size_t size);
     explicit Blob(const Blob& blob);
     Blob& operator=(const Blob& blob);

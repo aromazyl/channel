@@ -24,10 +24,11 @@ char* Allocator::Alloc(size_t size) {
     size |= size >> 1;
     size += 1;
   }
+  char* ret = NULL;
   {
     std::lock_guard<std::mutex> lock(*mutex_); 
     if (!pool_.count(size)) pool_[size] = new BlockList(size);
-    auto ret = pool_[size]->Pop();
+    ret = pool_[size]->Pop();
   }
   return ret;
 }
@@ -37,7 +38,7 @@ void Allocator::Free(char* data) {
   ((MemoryBlock*)(data - kPointerSize))->UnLink();
 }
 
-void Allocator::Ref(char* data) {
+void Allocator::Refer(char* data) {
   ((MemoryBlock*)(data - kPointerSize))->Link();
 }
 
@@ -101,7 +102,7 @@ void MemoryBlock::Link() {
 void MemoryBlock::UnLink() {
   ref_ -= 1;
   if (ref_ == 0) {
-    free_->Push(this);
+    list_->Push(this);
   }
 }
 

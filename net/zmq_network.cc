@@ -17,7 +17,7 @@ namespace net {
   }
 
   void ZMQ_NetWork::Finalize() {
-    zmq_ctx_destory(context_);
+    zmq_ctx_destroy(context_);
   }
 
   void ZMQ_NetWork::Bind(int rank) {
@@ -41,13 +41,13 @@ namespace net {
       << "rank:" << rank << " connect failure, addr:" << node_table_[rank]->addr;
   }
 
-  void ZMQ_NetWork::Send(int rank, msg::MessagePtr& msg) {
+  void ZMQ_NetWork::Send(int rank, const msg::MessagePtr& msg) {
     if (!msg) return;
     CHECK(node_table_.count(rank)) << "rank:" << rank << " does not exist.";
-    CHECK(node_table_[rank].sender) << "regist rank[" << rank << "] socket first";
+    CHECK(node_table_[rank]->sender) << "regist rank[" << rank << "] socket first";
     int buf[4];
-    buf[0] = (int)msg->type; buf[1] = msg->form; buf[2] = rank; buf[4] = msg->blob.size();
-    const void*& socket = node_table_[rank].sender;
+    buf[0] = (int)msg->type; buf[1] = msg->from; buf[2] = rank; buf[3] = msg->blob.size();
+    void* socket = node_table_[rank]->sender;
     zmq_send(socket, buf, sizeof(int) * 4, ZMQ_SNDMORE);
     zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
   }
@@ -55,14 +55,16 @@ namespace net {
   void ZMQ_NetWork::Receive(int rank, msg::MessagePtr& msg) {
     if (!msg) msg.reset(new msg::Message);
     CHECK(node_table_.count(rank)) << "rank:" << rank << " does not exist.";
-    CHECK(node_table_[rank].receiver) << "regist rank[" << rank << "] socket first";
-    const void*& socket = node_table_[rank].receiver;
+    CHECK(node_table_[rank]->receiver) << "regist rank[" << rank << "] socket first";
+    void* socket = node_table_[rank]->receiver;
     int buf[4];
     msg->blob.resize(buf[3]);
     int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), ZMQ_DONTWAIT);
     CHECK(recv_size != -1) << "zmq receive header failure, socket:\n" << socket;
     blob::Blob blob(buf[3]);
-    recve_size = zmq_recv(socket, blob.data(), buf[3], 0);
+    recv_size = zmq_recv(socket, blob.data(), buf[3], 0);
+    CHECK(recv_size != -1) << base::StringPrintf("socket:%p, receive blob data failure, data size:%d\n",
+        socket, buf[3]);
   }
 
   int ZMQ_NetWork::NodeNums() const {

@@ -20,17 +20,13 @@ enum NetType {
   SOCKET = 2,
 };
 
-class ZMQ_NetWork;
-
 class NetWork {
-  protected:
+  public:
     NetWork() {}
-    ~NetWork() {}
+    virtual ~NetWork() {}
+  private:
     NetWork(const NetWork&) {}
     void operator=(const NetWork&) {}
-
-  public:
-    static NetWork* Get(const NetType& net_type);
 
   public:
     virtual void Init(int* argc, char** argv) = 0;

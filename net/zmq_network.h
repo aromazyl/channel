@@ -14,7 +14,10 @@
 #include <string>
 #include <memory>
 
+
 namespace net {
+
+class ZMQ_NetWork;
 
 struct ZMQ_Entity {
   int rank;
@@ -27,6 +30,8 @@ using ZMQEntityPtr = std::shared_ptr<ZMQ_Entity>;
 
 class ZMQ_NetWork : public NetWork {
   public:
+    virtual ~ZMQ_NetWork() {}
+  public:
     void Init(int* argc, char** argv);
 
     void Finalize();
@@ -35,9 +40,14 @@ class ZMQ_NetWork : public NetWork {
 
     void Connect(int rank, const std::string& port);
 
-    void Send(int rank, msg::MessagePtr& msg);
+// #pragma clang diagnostic push
+// #pragma clang diagnostic ignored "-Woverloaded-virtual"
+
+    void Send(int rank, const msg::MessagePtr& msg);
 
     void Receive(int rank, msg::MessagePtr& msg);
+
+// #pragma clang diagnostic pop
 
     int NodeNums() const;
 
