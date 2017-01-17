@@ -20,6 +20,9 @@ class ZMQNETWORKTesting : public ::testing::Test {
     void SetUp() {
       zmq_network = new ZMQ_NetWork;
     }
+    void TearDown() {
+      delete zmq_network;
+    }
   private:
     ZMQ_NetWork* zmq_network;
 };

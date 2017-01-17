@@ -36,6 +36,16 @@ TEST_F(BlobTest, ResizeTest) {
   EXPECT_EQ(blob->size(), 256);
   blob->resize(128);
   EXPECT_EQ(blob->size(), 128);
+  delete blob;
+}
+
+TEST_F(BlobTest, CopyFrom_To) {
+  blob = new Blob(128);
+  blob2 = new Blob(200);
+  blob.CopyFrom("i love u", sizeof("i love u"));
+  blob.CopyTo(blob2.data(), blob2.size());
+  printf("blob1 : %s\n", blob1.data());
+  printf("blob2 : %s\n", blob2.data());
 }
 
 }
