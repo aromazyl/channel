@@ -53,4 +53,11 @@ char* Blob::data() const { return memory_; }
 
 size_t Blob::size() const { return size_; }
 
+void Blob::resize(size_t size) {
+  if (memory_ != NULL) {
+    mem::Allocator::Get()->Free(memory_);
+  }
+  memory_ = mem::Allocator::Get()->Alloc(size);
+}
+
 }

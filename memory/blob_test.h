@@ -34,8 +34,8 @@ TEST_F(BlobTest, SimpleConstructionTest) {
 TEST_F(BlobTest, ResizeTest) {
   blob = new Blob(256);
   EXPECT_EQ(blob->size(), 256);
-  blob->resize(128);
-  EXPECT_EQ(blob->size(), 128);
+  blob->resize((unsigned)128);
+  EXPECT_EQ(blob->size(), (unsigned)128);
   delete blob;
 }
 
