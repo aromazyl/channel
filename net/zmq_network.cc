@@ -8,6 +8,7 @@
 #include "zmq_network.h"
 #include "../base/string_printf.hpp"
 #include <glog/logging.h>
+#include <errno.h>
 
 
 namespace net {
@@ -17,6 +18,17 @@ namespace net {
   }
 
   void ZMQ_NetWork::Finalize() {
+    for (auto iter = node_table_.begin();
+        iter != node_table_.end(); ++iter) {
+      if (iter->second->sender) {
+        zmq_close(iter->second->sender);
+        iter->second->sender = NULL;
+      }
+      if (iter->second->receiver) {
+        zmq_close(iter->second->receiver);
+        iter->second->receiver = NULL;
+      }
+    }
     zmq_ctx_destroy(context_);
   }
 
@@ -69,10 +81,14 @@ namespace net {
   void ZMQ_NetWork::Receive(msg::MessagePtr& msg) {
     if (!msg) msg.reset(new msg::Message);
     void* socket = self_entity_.receiver;
-    int buf[4];
+    int buf[4] = {0};
     msg->blob.resize(buf[3]);
-    int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), ZMQ_DONTWAIT);
-    CHECK(recv_size != -1) << "zmq receive header failure, socket:" << socket;
+    int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), 0);
+    // int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), ZMQ_DONTWAIT);
+    CHECK(recv_size >= 0) << "zmq receive header failure, socket:" << socket
+      << ", recv_size:" << recv_size
+      << ", errno:" << errno
+      << base::StringPrintf("buf:%d,%d,%d,%d", buf[0], buf[1], buf[2], buf[3]);
     blob::Blob blob(buf[3]);
     recv_size = zmq_recv(socket, blob.data(), buf[3], 0);
     CHECK(recv_size != -1) << base::StringPrintf("socket:%p, receive blob data failure, data size:%d\n",

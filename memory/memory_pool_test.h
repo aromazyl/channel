@@ -18,7 +18,7 @@
 class MemoryTest : public ::testing::Test {
   public:
     virtual void SetUp() {
-      allocator = mem::Allocator::Get();
+      allocator = new mem::Allocator();
       block = NULL;
       list = NULL;
     }
@@ -55,8 +55,6 @@ TEST_F(MemoryTest, BlockListTest) {
   list = new mem::BlockList(100);
   block = new mem::MemoryBlock(100, list);
   list->Push(block);
-  int listLen = 0;
-  int kLen = sizeof(void*);
   EXPECT_EQ((*(void**)(block->data_)), (void*)block);
   delete list;
   list = NULL;

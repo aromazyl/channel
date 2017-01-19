@@ -31,7 +31,6 @@ char* Allocator::Alloc(size_t size) {
   {
     std::lock_guard<std::mutex> lock(*mutex_); 
     if (!pool_.count(size)) {
-      LOG(INFO) << base::StringPrintf("malloc new blob list, size:%u", size);
       pool_[size] = new BlockList(size);
     }
     ret = pool_[size]->Pop();
@@ -90,7 +89,6 @@ void BlockList::Push(MemoryBlock* data) {
 MemoryBlock::MemoryBlock(size_t size, BlockList* list) : ref_(1) {
   data_ = (char*)malloc(size + kPointerSize);
   list_ = list;
-  ref_ = 1;
   *((MemoryBlock**)data_) = this;
 }
 
@@ -109,8 +107,8 @@ void MemoryBlock::Link() {
 
 void MemoryBlock::UnLink() {
   ref_ -= 1;
-  LOG(INFO) << "ref:" << ref_;
   if (ref_ == 0) {
+    ref_ = 1;
     list_->Push(this);
   }
 }
