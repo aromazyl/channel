@@ -36,18 +36,17 @@ class ZMQ_NetWork : public NetWork {
 
     void Finalize();
 
-    void Bind(int rank);
+    // set rank receiver
+    void Bind(int rank, const std::string& port);
 
+    // set rank sender
     void Connect(int rank, const std::string& port);
 
-// #pragma clang diagnostic push
-// #pragma clang diagnostic ignored "-Woverloaded-virtual"
-
+    // send message to rank
     void Send(int rank, const msg::MessagePtr& msg);
 
-    void Receive(int rank, msg::MessagePtr& msg);
-
-// #pragma clang diagnostic pop
+    // receive message from rank
+    void Receive(msg::MessagePtr& msg);
 
     int NodeNums() const;
 

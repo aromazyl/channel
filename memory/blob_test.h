@@ -54,3 +54,4 @@ TEST_F(BlobTest, CopyFrom_To) {
 }
 
 #endif /* !BLOB_TEST_H */
+

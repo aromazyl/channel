@@ -20,16 +20,21 @@ namespace net {
     zmq_ctx_destroy(context_);
   }
 
-  void ZMQ_NetWork::Bind(int rank) {
+  void ZMQ_NetWork::Bind(int rank, const std::string& port) {
     CHECK(context_) << "Init ZMQ context firstly!";
     CHECK(this->node_table_.count(rank)) << "rank:" << rank
       << " does not registed";
     if (node_table_[rank]->receiver) return;
     node_table_[rank]->receiver = zmq_socket(context_, ZMQ_DEALER);
-    CHECK(!zmq_bind(node_table_[rank]->receiver, node_table_[rank]->addr.c_str()))
-      << "rank:" << rank << " bind failure, addr:" << node_table_[rank]->addr;
+    int ret;
+    CHECK(!(ret = zmq_bind(node_table_[rank]->receiver, (node_table_[rank]->addr + ":" + port).c_str())))
+      << base::StringPrintf("ret:%d, rank:%d, addr:%s, port:%s\n",
+          ret, rank, node_table_[rank]->addr.c_str(), port.c_str());
+    self_entity_.rank = rank;
+    self_entity_.addr = node_table_[rank]->addr;
+    self_entity_.receiver = node_table_[rank]->receiver;
   }
-  
+
   void ZMQ_NetWork::Connect(int rank, const std::string& port) {
     CHECK(context_) << "Init ZMQ context firstly!";
     CHECK(this->node_table_.count(rank)) << "rank:" << rank
@@ -47,20 +52,27 @@ namespace net {
     CHECK(node_table_[rank]->sender) << "regist rank[" << rank << "] socket first";
     int buf[4];
     buf[0] = (int)msg->type; buf[1] = msg->from; buf[2] = rank; buf[3] = msg->blob.size();
+
     void* socket = node_table_[rank]->sender;
-    zmq_send(socket, buf, sizeof(int) * 4, ZMQ_SNDMORE);
-    zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
+    int ret = zmq_send(socket, buf, sizeof(int) * 4, ZMQ_SNDMORE);
+    CHECK(ret != -1) <<
+      base::StringPrintf("header: buf[0]=%d,buf[1]=%d,buf[2]=%d,buf[3]=%d,send failure\n",
+        buf[0], buf[1], buf[2], buf[3]);
+
+    ret = zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
+
+    CHECK(ret != -1) <<
+      base::StringPrintf("blob:%s, size:%u, send failure\n",
+        msg->blob.data(), msg->blob.size());
   }
 
-  void ZMQ_NetWork::Receive(int rank, msg::MessagePtr& msg) {
+  void ZMQ_NetWork::Receive(msg::MessagePtr& msg) {
     if (!msg) msg.reset(new msg::Message);
-    CHECK(node_table_.count(rank)) << "rank:" << rank << " does not exist.";
-    CHECK(node_table_[rank]->receiver) << "regist rank[" << rank << "] socket first";
-    void* socket = node_table_[rank]->receiver;
+    void* socket = self_entity_.receiver;
     int buf[4];
     msg->blob.resize(buf[3]);
     int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), ZMQ_DONTWAIT);
-    CHECK(recv_size != -1) << "zmq receive header failure, socket:\n" << socket;
+    CHECK(recv_size != -1) << "zmq receive header failure, socket:" << socket;
     blob::Blob blob(buf[3]);
     recv_size = zmq_recv(socket, blob.data(), buf[3], 0);
     CHECK(recv_size != -1) << base::StringPrintf("socket:%p, receive blob data failure, data size:%d\n",

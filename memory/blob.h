@@ -33,6 +33,6 @@ class Blob {
     char* memory_;
     size_t size_;
 };
-};
+}
 
 #endif /* !BLOB_H */

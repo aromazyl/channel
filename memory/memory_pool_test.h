@@ -12,6 +12,7 @@
 #define private public
 #define protected public
 
+#include "blob.h"
 #include "memory_pool.h"
 
 class MemoryTest : public ::testing::Test {
@@ -38,12 +39,27 @@ TEST_F(MemoryTest, AllocatorAllocTest) {
   ASSERT_TRUE(static_cast<bool>(allocator->pool_.count(128)));
   allocator->Free(tmp);
   char* t2 = allocator->Alloc(110);
-  ASSERT_TRUE(tmp == t2);
+  EXPECT_EQ(tmp, t2);
   tmp = allocator->Alloc(0);
   EXPECT_EQ(allocator->pool_.size(), static_cast<size_t>(2));
 };
 
 TEST_F(MemoryTest, FreeAllocTest) {
+  char* tmp = allocator->Alloc(100);
+  char* t = allocator->Refer(tmp);
+  allocator->Free(t);
+  allocator->Free(tmp);
 };
+
+TEST_F(MemoryTest, BlockListTest) {
+  list = new mem::BlockList(100);
+  block = new mem::MemoryBlock(100, list);
+  list->Push(block);
+  int listLen = 0;
+  int kLen = sizeof(void*);
+  EXPECT_EQ((*(void**)(block->data_)), (void*)block);
+  delete list;
+  list = NULL;
+}
 
 #endif /* !MEMORY_POOL_TEST_H */

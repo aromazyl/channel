@@ -9,7 +9,7 @@ all:
 lint:
 	python third_party/cpplint.py ./*
 
-test:
+test: ./test/channel_test
 	./test/channel_test
 # vim:ft=make
 #

@@ -16,17 +16,20 @@ namespace blob {
 Blob::Blob() : memory_(NULL), size_(0) {}
 
 Blob::Blob(size_t size) {
+  memory_ = NULL;
+  size_ = 0;
   this->resize(size);
 }
 
 Blob::~Blob() {
-  mem::Allocator::Get()->Free(memory_);
+  if (memory_) {
+    mem::Allocator::Get()->Free(memory_);
+  }
   size_ = 0;
 }
 
 Blob::Blob(const Blob& blob) {
-  mem::Allocator::Get()->Refer(blob.memory_);
-  this->memory_ = blob.memory_;
+  this->memory_ = mem::Allocator::Get()->Refer(blob.memory_);
   this->size_ = blob.size_;
 }
 
@@ -54,10 +57,12 @@ char* Blob::data() const { return memory_; }
 size_t Blob::size() const { return size_; }
 
 void Blob::resize(size_t size) {
+  if (size == 0) return;
   if (memory_ != NULL) {
     mem::Allocator::Get()->Free(memory_);
   }
   memory_ = mem::Allocator::Get()->Alloc(size);
+  size_ = size;
 }
 
 }

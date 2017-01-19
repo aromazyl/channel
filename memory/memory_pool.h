@@ -25,7 +25,7 @@ class Allocator {
   public:
     char* Alloc(size_t size);
     void Free(char*);
-    void Refer(char*);
+    char* Refer(char*);
     static Allocator* Get() {
       static Allocator allocator;
       return &allocator;

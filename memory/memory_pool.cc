@@ -5,7 +5,10 @@
  * Distributed under terms of the MIT license.
  */
 
+#include <glog/logging.h>
+
 #include "memory_pool.h"
+#include "../base/string_printf.hpp"
 
 
 namespace mem {
@@ -27,7 +30,10 @@ char* Allocator::Alloc(size_t size) {
   char* ret = NULL;
   {
     std::lock_guard<std::mutex> lock(*mutex_); 
-    if (!pool_.count(size)) pool_[size] = new BlockList(size);
+    if (!pool_.count(size)) {
+      LOG(INFO) << base::StringPrintf("malloc new blob list, size:%u", size);
+      pool_[size] = new BlockList(size);
+    }
     ret = pool_[size]->Pop();
   }
   return ret;
@@ -35,11 +41,12 @@ char* Allocator::Alloc(size_t size) {
 
 
 void Allocator::Free(char* data) {
-  ((MemoryBlock*)(data - kPointerSize))->UnLink();
+  (*(MemoryBlock**)(data - kPointerSize))->UnLink();
 }
 
-void Allocator::Refer(char* data) {
-  ((MemoryBlock*)(data - kPointerSize))->Link();
+char* Allocator::Refer(char* data) {
+  (*(MemoryBlock**)(data - kPointerSize))->Link();
+  return data;
 }
 
 Allocator::Allocator() {
@@ -83,7 +90,8 @@ void BlockList::Push(MemoryBlock* data) {
 MemoryBlock::MemoryBlock(size_t size, BlockList* list) : ref_(1) {
   data_ = (char*)malloc(size + kPointerSize);
   list_ = list;
-  *(void**)data_ = (void*)this;
+  ref_ = 1;
+  *((MemoryBlock**)data_) = this;
 }
 
 MemoryBlock::~MemoryBlock() {
@@ -101,6 +109,7 @@ void MemoryBlock::Link() {
 
 void MemoryBlock::UnLink() {
   ref_ -= 1;
+  LOG(INFO) << "ref:" << ref_;
   if (ref_ == 0) {
     list_->Push(this);
   }
