@@ -3,6 +3,7 @@ function(netlib)
   include(${CMAKE_CURRENT_BINARY_DIR}/../../memory/CMakeLists.txt)
   memorylib()
   add_definitions('-std=c++11')
+  add_definitions('-g')
   ADD_LIBRARY( net STATIC
     ${CMAKE_CURRENT_BINARY_DIR}/../../net/zmq_network.cc
     ${CMAKE_CURRENT_BINARY_DIR}/../../net/network.cc
