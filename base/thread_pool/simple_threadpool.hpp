@@ -12,7 +12,7 @@ class ThreadPool {
             unsigned const thread_count = std::thread::hardware_concurrency();
             try {
                 for (unsigned i = 0; i < thread_count; ++i) {
-                    threads_.push_back(new std::thread(&ThreadPool::WorkerThread, this));
+                    threads_.push_back(std::thread(&ThreadPool::WorkerThread, this));
                 }
             } catch (...) {
                 done_ = true;
@@ -23,8 +23,7 @@ class ThreadPool {
         ~ThreadPool() {
             done_ = true;
             for (size_t i = 0; i < threads_.size(); ++i) {
-                threads_[i]->join();
-                delete threads_[i];
+                threads_[i].join();
             }
         }
 
@@ -32,7 +31,6 @@ class ThreadPool {
         template <typename FunctionType>
         void Submit(FunctionType f) {
             queue_.Push(std::function<void()>(f));
-            cond_.Post();
         }
 
     private:
@@ -50,6 +48,5 @@ class ThreadPool {
     private:
         std::atomic_bool done_;
         ThreadSafeQueue<std::function<void()>> queue_;
-        ConditionVariable cond_;
-        std::vector<std::thread*> threads_;
+        std::vector<std::thread> threads_;
 };
