@@ -8,10 +8,13 @@
 #ifndef KVSTORE_ACTOR_H
 #define KVSTORE_ACTOR_H
 
+#include <unordered_map>
 #include <mutex>
+#include "./kvstore_base.h"
 #include "../message.h"
 
 namespace kvstore {
+  template <typename Key, typename Value>
   class KVStoreActor : public msg::Actor {
     public:
       KVStoreActor() {};
@@ -33,6 +36,8 @@ namespace kvstore {
       msg::MessageHandler saveHandler_;
       std::mutex lock_;
 
+    private:
+      KVStoreBase* store_;
   };
 }
 
