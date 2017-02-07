@@ -11,10 +11,11 @@
 #include <unordered_map>
 #include <mutex>
 #include "./kvstore_base.h"
+#include "sparse_hash_kvstore.h"
 #include "../message.h"
 
 namespace kvstore {
-  template <typename Key, typename Value>
+  template <typename Key, typename Value, typename Spliter>
   class KVStoreActor : public msg::Actor {
     public:
       KVStoreActor() {};
@@ -26,19 +27,25 @@ namespace kvstore {
       virtual void PostExit();
 
     private:
-      void Pull(const std::vector<uint64_t>& keys, msg::Message* values);
+      void Pull(const std::vector<Key>& keys, msg::Message* values);
 
-      void Push(const std::vector<uint64_t>& keys,
-          const std::vector<uint64_t>& values);
+      void Push(const std::vector<Key>& keys,
+          const std::vector<Value>& values);
 
     private:
       msg::MessageHandler pullHandler_;
-      msg::MessageHandler saveHandler_;
+      msg::MessageHandler pushHandler_;
       std::mutex lock_;
 
     private:
       KVStoreBase* store_;
   };
+
+  template <typename Key, typename Value, typename Spliter>
+  void KVStoreActor::PreStart() {
+     store_ = new SparseHashKVStore();
+     pullHandler_ = std::make_shared<>();
+  }
 }
 
 
