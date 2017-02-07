@@ -10,6 +10,7 @@
 
 #include <unordered_map>
 #include <mutex>
+#include "../net/communicator.h"
 #include "./kvstore_base.h"
 #include "sparse_hash_kvstore.h"
 #include "../message.h"
@@ -18,8 +19,8 @@ namespace kvstore {
   template <typename Key, typename Value, typename Merger>
   class KVStoreActor : public msg::Actor {
     public:
-      KVStoreActor() {};
-      virtual ~KVStoreActor() {};
+      KVStoreActor(int id) { this->id = id; }
+      virtual ~KVStoreActor() {}
 
     public:
       virtual void PreStart();
@@ -42,21 +43,21 @@ namespace kvstore {
   };
 
   template <typename Key, typename Value, typename Merger>
-  virtual void KVStoreActor::PreStart() {
-     store_ = new SparseHashKVStore();
-
-  }
- 
-  template <typename Key, typename Value, typename Merger>
-  virtual void KVStoreActor<Key, Value, Merger>::PostExit() {
-    delete store_;
-  }
+    virtual void KVStoreActor::PreStart() {
+      network::Communicator::Get()->Register(this);
+      store_ = new SparseHashKVStore<Key, Value>();
+    }
 
   template <typename Key, typename Value, typename Merger>
-  void KVStoreActor<Key, Value, Merger>::Pull() {}
+    virtual void KVStoreActor<Key, Value, Merger>::PostExit() {
+      delete store_;
+    }
 
   template <typename Key, typename Value, typename Merger>
-  void KVStoreActor<Key, Value, Merger>::Push() {}
+    void KVStoreActor<Key, Value, Merger>::Pull() {}
+
+  template <typename Key, typename Value, typename Merger>
+    void KVStoreActor<Key, Value, Merger>::Push() {}
 
 }
 
