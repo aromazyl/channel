@@ -29,6 +29,7 @@ class Communicator : public msg::Actor {
     // actor id to machine id
     std::unordered_map<int, int> remote_;
     NetWork* net_;
+    bool binded_ = false;
 };
 }
 

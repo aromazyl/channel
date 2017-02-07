@@ -8,6 +8,7 @@
 #include "communicator.h"
 
 #include <stdio.h>
+#include "../kvstore/kvstore_actor.h"
 #include "./zmq_network.h"
 #include "../conf/configure.h"
 
@@ -20,17 +21,19 @@ namespace network {
 
     CHECK(Configure::Get()->IsExistConf("NETWORK_TABLE"));
     char ip_port[40];
+    int actor_id;
     int net_id;
     char type[10];
     FILE* fs = fopen(Configure::Get()->GetConf("NETWORK_TABLE"), "r");
-    while (fscanf(fs, "%s:%d:%s\n", type, net_id, ip_port)) {
+    while (fscanf(fs, "%s:%d:%d:%s\n", type, actor_id, net_id, ip_port)) {
       net_->RegisterNetNode(net_id, ip_port);
       if (std::string(type) == "local") {
-        net_->Bind(net_id);
+        if (!binded_) net_->Bind(net_id);
       }
+
       if (std::string(type) == "remote") {
         net_->Connect(net_id);
-        remote_[net_id] = net_id;
+        remote_[actor_id] = net_id;
       }
     }
     fclose(fs);
