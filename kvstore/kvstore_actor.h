@@ -15,7 +15,7 @@
 #include "../message.h"
 
 namespace kvstore {
-  template <typename Key, typename Value, typename Spliter>
+  template <typename Key, typename Value, typename Merger>
   class KVStoreActor : public msg::Actor {
     public:
       KVStoreActor() {};
@@ -41,11 +41,23 @@ namespace kvstore {
       KVStoreBase* store_;
   };
 
-  template <typename Key, typename Value, typename Spliter>
-  void KVStoreActor::PreStart() {
+  template <typename Key, typename Value, typename Merger>
+  virtual void KVStoreActor::PreStart() {
      store_ = new SparseHashKVStore();
-     pullHandler_ = std::make_shared<>();
+
   }
+ 
+  template <typename Key, typename Value, typename Merger>
+  virtual void KVStoreActor<Key, Value, Merger>::PostExit() {
+    delete store_;
+  }
+
+  template <typename Key, typename Value, typename Merger>
+  void KVStoreActor<Key, Value, Merger>::Pull() {}
+
+  template <typename Key, typename Value, typename Merger>
+  void KVStoreActor<Key, Value, Merger>::Push() {}
+
 }
 
 
