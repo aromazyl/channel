@@ -16,6 +16,16 @@
 
 namespace network {
 class Communicator : public msg::Actor {
+  private:
+    Communicator();
+    Communicator(const Communicator&);
+    void operator=(const Communicator&);
+  public:
+    static Communicator* Get() {
+      static Communicator comm;
+      return &comm;
+    }
+
   public:
     void PreStart();
     void PostExit();
