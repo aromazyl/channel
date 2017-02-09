@@ -37,6 +37,7 @@ class NetWork {
     virtual void Receive(msg::MessagePtr& msg) = 0;
     virtual int NodeNums() const = 0;
     virtual void RegisterNetNode(int rank, const std::string& name) = 0;
+    virtual int MyRank() const = 0;
 
   protected:
 };

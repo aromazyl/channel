@@ -28,6 +28,6 @@ struct Message {
 };
 
 typedef std::shared_ptr<Message> MessagePtr;
-typedef std::function<void(Message*)> MessageHandler;
+typedef std::function<void(MessagePtr)> MessageHandler;
 
 }

@@ -31,7 +31,7 @@ class Communicator : public msg::Actor {
     void PostExit();
 
     void Register(Actor* actor);
-    void SendTo(msg::Message* msg);
+    void SendTo(msg::MessagePtr msg);
 
   private:
     // actors: id to actor

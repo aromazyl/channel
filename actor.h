@@ -24,13 +24,13 @@ namespace msg {
 
     public:
 
-      void Receive(Message* msg) { this->msgbox_.Push(msg); }
+      void Receive(MessagePtr msg) { this->msgbox_.Push(msg); }
 
       virtual void Run() {
         PreStart();
         is_running_ = true;
         while (is_running_) {
-          Message* tmp_msg;
+          MessagePtr tmp_msg;
           if (msgbox_.TryPop(tmp_msg)) {
             if (handlers_.count(tmp_msg->type)) {
               handlers[tmp_msg->type](tmp_msg);
@@ -56,7 +56,7 @@ namespace msg {
     protected:
       std::unordered_map<MsgType, MessageHandler> handlers_;
       msg::MessageHandler default_handler_;
-      ThreadSafeQueue<Message*> msgbox_;
+      ThreadSafeQueue<MessagePtr> msgbox_;
       std::atomic<bool> is_running_;
   };
 }

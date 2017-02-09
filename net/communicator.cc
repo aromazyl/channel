@@ -47,18 +47,12 @@ namespace network {
     local_actors_[actor->id] = actor;
   }
 
-  void Communicator::SendTo(msg::Message* mmsg) {
+  void Communicator::SendTo(msg::MessagePtr mmsg) {
     if (local_actors_.count(mmsg->to)) {
       local_actors_[mmsg->to]->Receive(mmsg);
     } else {
       const int& remote_rank = remote_[mmsg->to];
-      msg::MessagePtr msg_ptr(new msg::Message);
-      msg_ptr->type = mmsg->type;
-      msg_ptr->from = mmsg->from;
-      msg_ptr->to = mmsg->to;
-      msg_ptr->blob.resize(mmsg->blob.size());
-      msg_ptr->blob = mmsg->blob;
-      net_->Send(remote_rank, msg_ptr);
+      net_->Send(remote_rank, mmsg);
     }
   }
 }

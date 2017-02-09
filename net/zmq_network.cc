@@ -122,4 +122,8 @@ namespace net {
     node_table_[rank]->sender = NULL;
     node_table_[rank]->receiver = NULL;
   }
+
+  int ZMQ_NetWWork::MyRank() const {
+    return self_entity_.rank;
+  }
 }

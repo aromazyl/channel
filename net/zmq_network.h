@@ -52,6 +52,8 @@ class ZMQ_NetWork : public NetWork {
 
     void RegisterNetNode(int rank, const std::string& addr);
 
+    int MyRank() const;
+
   private:
     std::unordered_map<int, ZMQEntityPtr> node_table_;
 

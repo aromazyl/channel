@@ -24,11 +24,11 @@ namespace kvstore {
 
     public:
       virtual void PreStart();
-      virtual void Receive(Message* msg);
+      virtual void Receive(MessagePtr msg);
       virtual void PostExit();
 
     private:
-      void Pull(const std::vector<Key>& keys, msg::Message* values);
+      void Pull(const std::vector<Key>& keys, msg::MessagePtr values);
 
       void Push(const std::vector<Key>& keys,
           const std::vector<Value>& values);
