@@ -1,2 +1,3 @@
 # channel
-message channel for communication
+tiny parameter server.
+uncompelished
