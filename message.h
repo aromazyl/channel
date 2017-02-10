@@ -1,4 +1,8 @@
-#pragma once
+// Copyright 2017 zhangyule
+//
+
+#ifndef MESSAGE_H_
+#define MESSAGE_H_
 
 #include <functional>
 #include <unordered_map>
@@ -31,3 +35,5 @@ typedef std::shared_ptr<Message> MessagePtr;
 typedef std::function<void(MessagePtr)> MessageHandler;
 
 }
+
+#endif
