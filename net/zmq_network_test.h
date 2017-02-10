@@ -40,7 +40,7 @@ TEST_F(ZMQNETWORKTesting, NetWorkSendingFunctionTest) {
   zmq_network->Connect(1, "5556");
   msg::MessagePtr msg_ptr;
   msg_ptr.reset(new msg::Message);
-  msg_ptr->type = msg::RCV;
+  msg_ptr->type = msg::PULL;
   msg_ptr->from = 1;
   msg_ptr->to = 0;
 

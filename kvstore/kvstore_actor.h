@@ -14,6 +14,7 @@
 #include "./kvstore_base.h"
 #include "sparse_hash_kvstore.h"
 #include "../message.h"
+#include "../actor.h"
 
 namespace kvstore {
   template <typename Key, typename Value, typename Merger>

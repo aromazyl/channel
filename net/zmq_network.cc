@@ -88,7 +88,7 @@ namespace net {
 
     int buf[4] = {0};
 
-    if (msg->blob.size() != buf[3])
+    if ((int)msg->blob.size() != buf[3])
       msg->blob.resize(buf[3]);
 
     // int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), 0);
@@ -123,7 +123,7 @@ namespace net {
     node_table_[rank]->receiver = NULL;
   }
 
-  int ZMQ_NetWWork::MyRank() const {
+  int ZMQ_NetWork::MyRank() const {
     return self_entity_.rank;
   }
 }
