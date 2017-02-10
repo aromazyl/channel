@@ -1,3 +1,3 @@
 # channel
 tiny parameter server.
-uncompelished
+uncomplished
