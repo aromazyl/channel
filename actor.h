@@ -9,6 +9,7 @@
 #define ACTOR_H // NOLINT
 
 #include <unordered_map>
+#include <condition_variable>
 
 #include "base/string_printf.hpp"
 #include "./message.h"
@@ -23,6 +24,8 @@ class Actor {
    virtual void PreStart() = 0;
 
    virtual void PostExit() = 0;
+
+   virtual void Barrier(std::function<bool()>* condition);
 
  public:
    void Receive(MessagePtr msg) { this->msgbox_.Push(msg); }
@@ -59,6 +62,8 @@ class Actor {
    msg::MessageHandler default_handler_;
    ThreadSafeQueue<MessagePtr> msgbox_;
    std::atomic<bool> is_running_;
+   std::mutex mu_;
+   std::condition_variable cond_;
 };
 } // namespace msg
 
