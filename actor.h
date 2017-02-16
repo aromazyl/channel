@@ -10,6 +10,7 @@
 
 #include <unordered_map>
 #include <condition_variable>
+#include <functional>
 
 #include "base/string_printf.hpp"
 #include "./message.h"
