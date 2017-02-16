@@ -29,7 +29,7 @@ namespace kvstore {
       virtual void PostExit();
 
     private:
-      void Pull(const std::vector<Key>& keys, msg::MessagePtr values);
+      void Pull(const std::vector<Key>& keys, msg::MessagePtr& values);
 
       void Push(const std::vector<Key>& keys,
           const std::vector<Value>& values);
@@ -55,10 +55,24 @@ namespace kvstore {
     }
 
   template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::Pull() {}
+    void KVStoreActor<Key, Value, Merger>::Pull(
+        const std::vector<Key>& keys, msg::MessagePtr& values) {
+      values->blob.resize(sizeof(Value) * keys.size() + sizeof(int));
+      values->blob.data()[0] = keys.size();
+      Value* p = values->blob.data() + sizeof(int);
+      for (auto& k : keys) {
+        *p = this->store_->Get(k);
+        p += sizeof(Value);
+      }
+    }
 
   template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::Push() {}
+    void KVStoreActor<Key, Value, Merger>::Push(
+        const std::vector<Key>& keys, const std::vector<Value>& values) {
+      for (size_t i = 0; i < keys.size(); ++i) {
+        this->store_->Save(keys[i], values[i]);
+      }
+    }
 
 }
 
