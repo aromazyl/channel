@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+2a28d8c5cbe59fe73e283c25ac2383bb CMakeFiles/channel_test-symlink

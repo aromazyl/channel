@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/channel_test.dir/test.cc.o  -o channel_test  -L/home/scyl/code/channel/test/build/../../third_party/zmq/lib -rdynamic -lzmq -lgtest -lglog -lgtest libmemory.a libnet.a -lpthread -lm -lnet -lmemory -lglog -lgtest -lzmq -lglog -lpthread -lm -lnet -lmemory -lglog -lgtest -lzmq -Wl,-rpath,/home/scyl/code/channel/test/build/../../third_party/zmq/lib 

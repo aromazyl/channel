@@ -9,10 +9,12 @@
 #define SERVER_H
 
 #include "./actor.h"
+#include "./kvstore/kvstore_actor.h"
 
 namespace customer {
   class Server : public msg::Actor {
     public:
+    private:
   };
 }
 

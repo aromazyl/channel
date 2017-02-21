@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmemory.a  CMakeFiles/memory.dir/home/scyl/code/channel/memory/blob.cc.o CMakeFiles/memory.dir/home/scyl/code/channel/memory/memory_pool.cc.o
+/usr/bin/ranlib libmemory.a

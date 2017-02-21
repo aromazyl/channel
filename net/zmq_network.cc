@@ -62,7 +62,7 @@ namespace net {
     if (!msg) return;
     CHECK(node_table_.count(rank)) << "rank:" << rank << " does not exist.";
     CHECK(node_table_[rank]->sender) << "regist rank[" << rank << "] socket first";
-    int buf[4];
+    int buf =
     buf[0] = (int)msg->type; buf[1] = msg->from; buf[2] = msg->to; buf[3] = msg->blob.size();
 
     void* socket = node_table_[rank]->sender;
@@ -86,7 +86,6 @@ namespace net {
 
     void* socket = self_entity_.receiver;
 
-    int buf[4] = {0};
 
     if ((int)msg->blob.size() != buf[3])
       msg->blob.resize(buf[3]);

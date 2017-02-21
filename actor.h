@@ -14,6 +14,7 @@
 
 #include "base/string_printf.hpp"
 #include "./message.h"
+#include "./location.h"
 
 namespace msg {
 class Actor {
@@ -56,7 +57,7 @@ class Actor {
 
  public:
    // global identity
-   int id;
+   Location id;
 
  protected:
    std::unordered_map<MsgType, MessageHandler> handlers_;

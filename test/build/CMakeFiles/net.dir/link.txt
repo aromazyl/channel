@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnet.a  CMakeFiles/net.dir/home/scyl/code/channel/net/zmq_network.cc.o CMakeFiles/net.dir/home/scyl/code/channel/net/network.cc.o
+/usr/bin/ranlib libnet.a

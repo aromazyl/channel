@@ -1,0 +1,6 @@
+/home/scyl/code/channel/test/build/CMakeFiles/edit_cache.dir
+/home/scyl/code/channel/test/build/CMakeFiles/memory.dir
+/home/scyl/code/channel/test/build/CMakeFiles/net.dir
+/home/scyl/code/channel/test/build/CMakeFiles/rebuild_cache.dir
+/home/scyl/code/channel/test/build/CMakeFiles/channel_test.dir
+/home/scyl/code/channel/test/build/CMakeFiles/channel_test-symlink.dir
