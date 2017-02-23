@@ -40,6 +40,10 @@ struct IsSameType<T, T> {
 template <typename T, typename ActA, typename ActB>
 struct IfThenElse;
 
+template <bool type>
+struct IfThenElse<BoolType<type>, ActA, ActB> {
+};
+
 template <typename ActA, typename ActB>
 struct IfThenElse<BoolType<true>, ActA, ActB> {
   using Result = typename ActA::Result;

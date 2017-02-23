@@ -8,8 +8,11 @@
 #ifndef SCHEDULAR_H
 #define SCHEDULAR_H
 
+#include <set>
+
 #include "./actor.h"
 #include "./message.h"
+#include "./location.h"
 
 namespace msg {
   class Schedular : public Actor {
@@ -18,7 +21,10 @@ namespace msg {
       virtual void PostExit();
 
     private:
-
+      void RegistActor(const msg::MessagePtr& message);
+      void GetLocationTable(msg::MessagePtr message);
+      std::set<Location> locations_;
+      set::set<int> registed_hosts_;
   };
 }
 

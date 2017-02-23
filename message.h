@@ -8,15 +8,20 @@
 #include <unordered_map>
 #include <queue>
 #include <memory>
-#include "memory/blob.h"
-#include "./base/thread_pool/thread_safe_queue.hpp"
 #include <thread>
+#include <glog/logging.h>
+
+#include "./base/string_printf.hpp"
+#include "memory/blob.h"
+#include "memory/memory_pool.h"
+#include "./base/thread_pool/thread_safe_queue.hpp"
+#include "./location.h"
 
 namespace msg {
 
 enum MsgType {
   REQUEST_ACTOR_TABLE_ACK = -6,
-  REGISTER_ACTOR_ACK = -5,
+  REGIST_ACTOR_ACK = -5,
   CONTINUTE_ACK = -4,
   STOP_ACK = -3,
   PUSH_ACK = -2,
@@ -26,7 +31,7 @@ enum MsgType {
   PUSH = 2,
   STOP = 3,
   CONTINUTE = 4,
-  REGISTER_ACTOR = 5,
+  REGIST_ACTOR = 5,
   REQUEST_ACTOR_TABLE = 6,
 };
 
@@ -48,6 +53,11 @@ Message* CreateReply(Message* message) {
 
 inline
 void SerializeMessage(Message* message, void** buf, int* size) {
+  CHECK(*buf == NULL) << base::StringPrintf("buf is not empty, address:%p", *buf);
+  CHECK(message) << base::StringPrintf("message pointer is empty.");
+  *buf = mem::Allocator::Get()->Alloc(
+      sizeof(int) * (2 + sizeof(Location)) + message->blob.size());
+  int* ptr = std::reintepret_cast<int*>(*buf);
 }
 
 inline
