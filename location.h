@@ -9,6 +9,7 @@
 #define LOCATION_H
 
 // location info for actors
+#include "./base/string_printf.hpp"
 
 enum ActorType {
   kServerGroup;
@@ -17,9 +18,16 @@ enum ActorType {
 
 struct Location {
   int port;
-  int ip;
+  char ip[15];
   ActorType type;
   int type_id;
 };
+
+inline
+std::string DumpLocationInfo(const Location& loc) {
+  return base::StringPrintf("port:%d, ip:%s, actortype:%s, typeid:%d",
+      loc.port, loc.ip, loc.type, loc.type_id);
+}
+
 
 #endif /* !LOCATION_H */

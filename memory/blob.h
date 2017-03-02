@@ -33,6 +33,9 @@ class Blob {
     char* memory_;
     size_t size_;
 };
+
+std::string DumpBlobInfo(const Blob& blob);
+
 }
 
 #endif /* !BLOB_H */

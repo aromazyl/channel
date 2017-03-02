@@ -27,6 +27,7 @@ namespace msg {
   }
 
   void Schedular::RegistActor(const msg::MessagePtr& message) {
+    
   }
   void Schedular::GetLocationTable(msg::MessagePtr message) {
   }

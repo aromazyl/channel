@@ -9,6 +9,7 @@
 #include <glog/logging.h>
 
 #include "blob.h"
+#include "../base/string_printf.hpp"
 
 
 namespace blob {
@@ -63,6 +64,11 @@ void Blob::resize(size_t size) {
   }
   memory_ = mem::Allocator::Get()->Alloc(size);
   size_ = size;
+}
+
+std::string DumpBlobInfo(const Blob& blob) {
+  return base::StringPrintf("blob size:%d, blob info:%s",
+      blob.size(), blob.data());
 }
 
 }

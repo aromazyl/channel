@@ -9,6 +9,7 @@
 #include <queue>
 #include <memory>
 #include <thread>
+#include <string>
 #include <glog/logging.h>
 
 #include "./base/string_printf.hpp"
@@ -43,6 +44,15 @@ struct Message {
 };
 
 inline
+std::string DumpMessageInfo(const Message& msg_info) {
+  return base::StringPrintf("msg type:%d, from:%s, to:%s, blob:%s",
+      msg_info.type,
+      DumpLocationInfo(msg_info.from).c_str(),
+      DumpLocationInfo(msg_info.to).c_str(),
+      DumpBlobInfo(msg_info.blob).c_str());
+}
+
+inline
 Message* CreateReply(Message* message) {
   auto msg_r = new Message;
   msg_r->type = -(this->type);
@@ -55,13 +65,27 @@ inline
 void SerializeMessage(Message* message, void** buf, int* size) {
   CHECK(*buf == NULL) << base::StringPrintf("buf is not empty, address:%p", *buf);
   CHECK(message) << base::StringPrintf("message pointer is empty.");
-  *buf = mem::Allocator::Get()->Alloc(
-      sizeof(int) * (2 + sizeof(Location)) + message->blob.size());
-  int* ptr = std::reintepret_cast<int*>(*buf);
+  *size = sizeof(msg::MsgType) + 2 * sizeof(Location) + message->blob.size() + sizeof(size_t);
+  *buf = mem::Allocator::Get()->Alloc(*size);
+  char* ptr = *buf;
+  memcpy(&(message->type), ptr, sizeof(msg::MsgType) +
+      sizeof(Location) * 2)
+  ptr += sizeof(msg::MsgType) + sizeof(Location) * 2;
+  *ptr = message->blob.size();
+  ptr += sizeof(size_t);
+  memcpy(ptr, blob->data(), blob->size());
 }
 
 inline
 void DeserializeMessage(Message* message, void* buf, int size) {
+  CHECK(message) << base::StringPrintf("message is empty");
+  const int kCopySize = sizeof(msg::MsgType) + 2 * sizeof(Location);
+  memcpy(&(message->type), buf, kCopySize);
+  buf += kCopySize;
+  size_t blobsize = *(size_t*)buf;
+  message->blob.resize(blobsize);
+  buf += sizeof(size_t);
+  message->blob.CopyFrom(buf, blobsize);
 }
 
 typedef std::shared_ptr<Message> MessagePtr;
