@@ -17,6 +17,7 @@ enum ActorType {
 };
 
 struct Location {
+  int rank;
   int port;
   char ip[15];
   ActorType type;

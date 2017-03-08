@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/scyl/code/channel/net/network.cc" "/home/scyl/code/channel/test/build/CMakeFiles/net.dir/home/scyl/code/channel/net/network.cc.o"
-  "/home/scyl/code/channel/net/zmq_network.cc" "/home/scyl/code/channel/test/build/CMakeFiles/net.dir/home/scyl/code/channel/net/zmq_network.cc.o"
+  "/Users/aromazyl/code/channel/net/network.cc" "/Users/aromazyl/code/channel/test/build/CMakeFiles/net.dir/Users/aromazyl/code/channel/net/network.cc.o"
+  "/Users/aromazyl/code/channel/net/zmq_network.cc" "/Users/aromazyl/code/channel/test/build/CMakeFiles/net.dir/Users/aromazyl/code/channel/net/zmq_network.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

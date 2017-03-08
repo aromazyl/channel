@@ -62,17 +62,22 @@ namespace net {
     if (!msg) return;
     CHECK(node_table_.count(rank)) << "rank:" << rank << " does not exist.";
     CHECK(node_table_[rank]->sender) << "regist rank[" << rank << "] socket first";
-    int buf =
+    void* buf = NULL;
+    int size = 0;
+
+    /*
     buf[0] = (int)msg->type; buf[1] = msg->from; buf[2] = msg->to; buf[3] = msg->blob.size();
+    */
+    SerializeMessage(&(*msg), &buf, &size);
 
     void* socket = node_table_[rank]->sender;
-    int ret = zmq_send(socket, buf, sizeof(int) * 4, ZMQ_SNDMORE);
+    int ret = zmq_send(socket, buf, size, 0);
     // int ret = zmq_send(socket, s_message, ZMQ_SNDMORE);
     CHECK(ret != -1) <<
       base::StringPrintf("header: buf[0]=%d,buf[1]=%d,buf[2]=%d,buf[3]=%d,send failure\n",
         buf[0], buf[1], buf[2], buf[3]);
 
-    ret = zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
+    // ret = zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
     // ret = zmq_send(socket, s_message, 0);
 
     CHECK(ret != -1) <<
@@ -93,6 +98,7 @@ namespace net {
     // int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), 0);
     int recv_size = zmq_recv(socket, buf, sizeof(buf), 0);
 
+    /*
     msg->blob.resize(buf[3]);
     recv_size = zmq_recv(socket, msg->blob.data(), buf[3], 0);
 
@@ -100,10 +106,12 @@ namespace net {
     msg->from = buf[1];
     msg->to   = buf[2];
 
+    */
+    DeserializeMessage(&(*msg), buf, sizeof(buf));
     CHECK(recv_size != -1) <<
       base::StringPrintf("socket:%p,"
           "receive blob data failure, data size:%d\n",
-        socket, buf[3]);
+        socket, sizeof(buf));
   }
 
   int ZMQ_NetWork::NodeNums() const {

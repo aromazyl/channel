@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../channel_test"
-  "CMakeFiles/net.dir/home/scyl/code/channel/net/zmq_network.cc.o"
-  "CMakeFiles/net.dir/home/scyl/code/channel/net/network.cc.o"
+  "CMakeFiles/net.dir/Users/aromazyl/code/channel/net/zmq_network.cc.o"
+  "CMakeFiles/net.dir/Users/aromazyl/code/channel/net/network.cc.o"
   "libnet.pdb"
   "libnet.a"
 )

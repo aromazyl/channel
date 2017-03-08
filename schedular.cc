@@ -27,7 +27,9 @@ namespace msg {
   }
 
   void Schedular::RegistActor(const msg::MessagePtr& message) {
-    
+    this->locations_.insert(message->from);
+    Message* reply = CreateReply(&(*message));
+
   }
   void Schedular::GetLocationTable(msg::MessagePtr message) {
   }
