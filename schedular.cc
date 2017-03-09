@@ -9,6 +9,7 @@
 #include <functional>
 
 #include "schedular.h"
+#include "./net/communicator.h"
 
 
 namespace msg {
@@ -27,10 +28,12 @@ namespace msg {
   }
 
   void Schedular::RegistActor(const msg::MessagePtr& message) {
+    message->from.rank = 
     this->locations_.insert(message->from);
-    Message* reply = CreateReply(&(*message));
-
+    Message* reply = CreateSmartReply(&(*message));
+    network::Communicator::Get()->SendTo(reply);
   }
+
   void Schedular::GetLocationTable(msg::MessagePtr message) {
   }
 }

@@ -18,17 +18,7 @@ namespace protocol {
 
   template <typename Any> DecoderImpl;
 
-  template <>
-  struct DecoderImpl<Decoder<msg::REQUEST_ACTOR_TABLE_ACK>> {
-    template <typename DecodeType>
-    bool Apply(Message* message, DecodeType& type) const {
-      if (!message) {
-        LOG(ERROR) << "message cannot be null";
-        return false;
-      }
-
-    }
-  };
+  template <typename MSG_TYPE> struct SendBlock;
 
 }
 

@@ -62,6 +62,15 @@ Message* CreateReply(Message* message) {
 }
 
 inline
+MessagePtr CreateSmartReply(Message* message) {
+  auto msg_ptr = std::make_shared<Message>();
+  msg_ptr->type = -(this->type);
+  msg_ptr->from = this->to;
+  msg_ptr->to = this->from;
+  return msg_r;
+}
+
+inline
 void SerializeMessage(Message* message, void** buf, int* size) {
   CHECK(*buf == NULL) << base::StringPrintf("buf is not empty, address:%p", *buf);
   CHECK(message) << base::StringPrintf("message pointer is empty.");
