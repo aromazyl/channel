@@ -34,10 +34,10 @@ class Communicator : public msg::Actor {
     void SendTo(msg::MessagePtr msg);
 
   private:
-    // actors: id to actor
-    std::unordered_map<int, Actor*> local_actors_;
+    // actors: Location Info to local actors
+    std::unordered_map<Location, Actor*> local_actors_;
     // actor id to machine id
-    std::unordered_map<int, int> remote_;
+    std::unordered_map<int, Location> remote_;
     NetWork* net_;
     bool binded_ = false;
 };
