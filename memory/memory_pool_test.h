@@ -12,8 +12,8 @@
 #define private public
 #define protected public
 
-#include "blob.h"
-#include "memory_pool.h"
+#include "memory/blob.h"
+#include "memory/memory_pool.h"
 
 class MemoryTest : public ::testing::Test {
   public:

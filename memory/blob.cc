@@ -8,8 +8,8 @@
 #include <string.h>
 #include <glog/logging.h>
 
-#include "blob.h"
-#include "../base/string_printf.hpp"
+#include "memory/blob.h"
+#include "base/string_printf.hpp"
 
 
 namespace blob {

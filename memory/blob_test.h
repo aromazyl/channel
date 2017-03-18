@@ -13,7 +13,7 @@
 #define private public
 
 #include <gtest/gtest.h>
-#include "blob.h"
+#include "memory/blob.h"
 
 namespace blob {
 

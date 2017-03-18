@@ -1,5 +1,14 @@
 cc_library(
+    name = "base",
+    hdrs = ["base/string_printf.hpp",
+            "base/thread_pool/simple_threadpool.hpp",
+            "base/thread_pool/thread_safe_queue.hpp"],
+    )
+cc_library(
     name = "memory",
+    hdrs = ["memory/blob.h",
+            "memory/memory_pool.h",
+            "base/string_printf.hpp",],
     srcs = ["memory/memory_pool.cc",
             "memory/blob.cc",
             ],
@@ -7,17 +16,19 @@ cc_library(
 
 cc_library(
     name = "io",
-    srcs = ["memory/fast_io.cc"],
+    hdrs = ["io/fast_io.h"],
+    srcs = ["io/fast_io.cc"],
     )
 
 cc_library(
     name = "kvstore",
-    srcs = ["kvstore/kvstore_actor.cc"],
     hdrs = ["kvstore/kvstore_actor.h",
             "kvstore/kvstore_base.h",
             "kvstore/sparse_hash_kvstore.h"],
+    srcs = ["kvstore/kvstore_actor.cc"],
     deps = ["//lib:memory",
-            "//lib:io"]
+            "//lib:base",
+            "//lib:io"],
     )
 
 cc_library(

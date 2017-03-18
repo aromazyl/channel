@@ -36,7 +36,7 @@ void LineStream::Destory() {
 }
 
 bool LineStream::GetLine(char** s, int* len) {
-  if (pos_ >= cache_size_) {
+  if (static_cast<int>(pos_) >= cache_size_) {
     bool ret = Read();
     if (ret == false) return false;
   }

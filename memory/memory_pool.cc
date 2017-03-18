@@ -7,8 +7,8 @@
 
 #include <glog/logging.h>
 
-#include "memory_pool.h"
-#include "../base/string_printf.hpp"
+#include "memory/memory_pool.h"
+#include "base/string_printf.hpp"
 
 
 namespace mem {
