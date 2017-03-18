@@ -12,11 +12,11 @@
 #include <string>
 #include <glog/logging.h>
 
-#include "./base/string_printf.hpp"
+#include "base/string_printf.hpp"
 #include "memory/blob.h"
 #include "memory/memory_pool.h"
-#include "./base/thread_pool/thread_safe_queue.hpp"
-#include "./location.h"
+#include "base/thread_pool/thread_safe_queue.hpp"
+#include "location.h"
 
 namespace msg {
 

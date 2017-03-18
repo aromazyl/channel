@@ -12,8 +12,8 @@
 #include "./base/string_printf.hpp"
 
 enum ActorType {
-  kServerGroup;
-  kWorkerGroup;
+  kServerGroup,
+  kWorkerGroup,
 };
 
 struct Location {

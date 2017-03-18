@@ -1,6 +1,18 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
+    name = "zmq",
+    srcs = glob(["third_party/zmq/include/*.h"]),
+    copts = ["-L./third_party/zmq/lib/ -lzmq"],
+    )
+
+cc_library(
+    name = "sparse_hash",
+    srcs = glob(["third_party/sparsehash/include/google/sparsehash/*.h",
+                 "third_party/sparsehash/include/sparsehash/internal/*.h"]),
+    )
+
+cc_library(
     name = "headers",
     srcs = glob(["*.h",
                  "net/*.h",
@@ -19,22 +31,26 @@ cc_library(
     srcs = ["memory/memory_pool.cc",
             "memory/blob.cc",
             ],
+    deps = [":headers"],
     )
 
 cc_library(
     name = "io",
-    hdrs = ["io/fast_io.h"],
+    # hdrs = ["io/fast_io.h"],
     srcs = ["io/fast_io.cc"],
+    deps = [":headers"],
     )
 
 cc_library(
     name = "kvstore",
-    hdrs = ["kvstore/kvstore_actor.h",
-            "kvstore/kvstore_base.h",
-            "kvstore/sparse_hash_kvstore.h"],
+    # hdrs = ["kvstore/kvstore_actor.h",
+    #         "kvstore/kvstore_base.h",
+    #         "kvstore/sparse_hash_kvstore.h"],
     srcs = ["kvstore/kvstore_actor.cc"],
     deps = [":memory",
-            ":io"],
+            ":io",
+            ":headers",
+            ":sparse_hash"],
     )
 
 cc_library(
@@ -47,17 +63,22 @@ cc_library(
             "net/zmq_network.h",
             "conf/configure.h",
             "message.h"],
+    includes = ["third_party/sparsehash/include/"],
     deps = [":memory",
-            ":io"]
+            ":io",
+            ":zmq",
+            ":headers",
+            ":sparse_hash"],
     )
 
 cc_test(
     name = "test_all",
     srcs = ["test/test.cc"],
     copts = ["-Iexternal/gtest/include"],
-    deps = ["//lib:memory",
-            "//lib:io",
+    deps = [":memory",
+            ":io",
             "@gtest//:main",
+            ":headers",
             ],
     )
 
