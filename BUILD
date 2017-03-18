@@ -1,6 +1,17 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
+    name = "headers",
+    srcs = glob(["*.h",
+                 "net/*.h",
+                 "base/*.hpp",
+                 "base/thread_pool/*.hpp",
+                 "net/*.h",
+                 "io/*.h",
+                 "kvstore/*.h",
+                 "conf/*.h"]),
+    )
+cc_library(
     name = "memory",
     hdrs = ["memory/blob.h",
             "memory/memory_pool.h",
@@ -23,7 +34,6 @@ cc_library(
             "kvstore/sparse_hash_kvstore.h"],
     srcs = ["kvstore/kvstore_actor.cc"],
     deps = [":memory",
-            ":base",
             ":io"],
     )
 
@@ -35,6 +45,7 @@ cc_library(
     hdrs = ["net/communicator.h",
             "net/network.h",
             "net/zmq_network.h",
+            "conf/configure.h",
             "message.h"],
     deps = [":memory",
             ":io"]
