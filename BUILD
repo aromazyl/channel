@@ -1,9 +1,5 @@
-cc_library(
-    name = "base",
-    hdrs = ["base/string_printf.hpp",
-            "base/thread_pool/simple_threadpool.hpp",
-            "base/thread_pool/thread_safe_queue.hpp"],
-    )
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "memory",
     hdrs = ["memory/blob.h",
@@ -26,9 +22,9 @@ cc_library(
             "kvstore/kvstore_base.h",
             "kvstore/sparse_hash_kvstore.h"],
     srcs = ["kvstore/kvstore_actor.cc"],
-    deps = ["//lib:memory",
-            "//lib:base",
-            "//lib:io"],
+    deps = [":memory",
+            ":base",
+            ":io"],
     )
 
 cc_library(
@@ -38,9 +34,10 @@ cc_library(
             "net/zmq_network.cc"],
     hdrs = ["net/communicator.h",
             "net/network.h",
-            "net/zmq_network.h"],
-    deps = ["//lib:memory",
-            "//lib:io"]
+            "net/zmq_network.h",
+            "message.h"],
+    deps = [":memory",
+            ":io"]
     )
 
 cc_test(
