@@ -39,14 +39,14 @@ class Actor {
        MessagePtr tmp_msg;
        if (msgbox_.TryPop(tmp_msg)) {
          if (handlers_.count(tmp_msg->type)) {
-           handlers[tmp_msg->type](tmp_msg);
+           handlers_[tmp_msg->type](&(*tmp_msg));
          } else {
            CHECK(default_handler_) <<
              base::StringPrintf(
                  "default handler is empty, "
                  "cannot handler msginfo : type:%d, from:%d, to:%d\n",
                  tmp_msg->type, tmp_msg->from, tmp_msg->to);
-           default_handler_(tmp_msg);
+           default_handler_(&(*tmp_msg));
          }
        } else {
          std::this_thread::yield();

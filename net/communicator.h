@@ -9,12 +9,13 @@
 #define COMMUNICATOR_H
 
 #include <functional>
-#include "../conf/configure.h"
-#include "../message.h"
-#include "../actor.h"
-#include "./network.h"
+#include "conf/configure.h"
+#include "message.h"
+#include "actor.h"
+#include "location.h"
+#include "net/network.h"
 
-namespace network {
+namespace net {
 class Communicator : public msg::Actor {
   private:
     Communicator();
@@ -30,12 +31,12 @@ class Communicator : public msg::Actor {
     void PreStart();
     void PostExit();
 
-    void Register(Actor* actor);
+    void Register(msg::Actor* actor);
     void SendTo(msg::MessagePtr msg);
 
   private:
     // actors: Location Info to local actors
-    std::unordered_map<Location, Actor*> local_actors_;
+    std::unordered_map<Location, msg::Actor*> local_actors_;
     // actor id to machine id
     std::unordered_map<int, Location> remote_;
     NetWork* net_;

@@ -20,6 +20,10 @@
 
 namespace msg {
 
+struct Message;
+typedef std::shared_ptr<Message> MessagePtr;
+typedef std::function<void(Message*)> MessageHandler;
+
 enum MsgType {
   REQUEST_ACTOR_TABLE_ACK = -6,
   REGIST_ACTOR_ACK = -5,
@@ -55,19 +59,19 @@ std::string DumpMessageInfo(const Message& msg_info) {
 inline
 Message* CreateReply(Message* message) {
   auto msg_r = new Message;
-  msg_r->type = -(this->type);
-  msg_r->from = this->to;
-  msg_r->to = this->from;
+  msg_r->type = MsgType(-(message->type));
+  msg_r->from = message->to;
+  msg_r->to = message->from;
   return msg_r;
 }
 
 inline
 MessagePtr CreateSmartReply(Message* message) {
-  auto msg_ptr = std::make_shared<Message>();
-  msg_ptr->type = -(this->type);
-  msg_ptr->from = this->to;
-  msg_ptr->to = this->from;
-  return msg_r;
+  MessagePtr msg_ptr = std::make_shared<Message>();
+  msg_ptr->type = MsgType(-(message->type));
+  msg_ptr->from = message->to;
+  msg_ptr->to = message->from;
+  return msg_ptr;
 }
 
 inline
@@ -76,13 +80,13 @@ void SerializeMessage(Message* message, void** buf, int* size) {
   CHECK(message) << base::StringPrintf("message pointer is empty.");
   *size = sizeof(msg::MsgType) + 2 * sizeof(Location) + message->blob.size() + sizeof(size_t);
   *buf = mem::Allocator::Get()->Alloc(*size);
-  char* ptr = *buf;
+  char* ptr = static_cast<char*>(*buf);
   memcpy(&(message->type), ptr, sizeof(msg::MsgType) +
-      sizeof(Location) * 2)
+      sizeof(Location) * 2);
   ptr += sizeof(msg::MsgType) + sizeof(Location) * 2;
   *ptr = message->blob.size();
   ptr += sizeof(size_t);
-  memcpy(ptr, blob->data(), blob->size());
+  memcpy(ptr, message->blob.data(), message->blob.size());
 }
 
 inline
@@ -90,15 +94,14 @@ void DeserializeMessage(Message* message, void* buf, int size) {
   CHECK(message) << base::StringPrintf("message is empty");
   const int kCopySize = sizeof(msg::MsgType) + 2 * sizeof(Location);
   memcpy(&(message->type), buf, kCopySize);
-  buf += kCopySize;
-  size_t blobsize = *(size_t*)buf;
+  char* p = (char*)buf;
+  p += kCopySize;
+  size_t blobsize = *(size_t*)p;
   message->blob.resize(blobsize);
-  buf += sizeof(size_t);
-  message->blob.CopyFrom(buf, blobsize);
+  p += sizeof(size_t);
+  message->blob.CopyFrom(p, blobsize);
 }
 
-typedef std::shared_ptr<Message> MessagePtr;
-typedef std::function<void(Message*)> MessageHandler;
 
 }
 

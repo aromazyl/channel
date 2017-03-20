@@ -8,6 +8,9 @@
 #ifndef CONFIGURE_H
 #define CONFIGURE_H
 
+#include <unordered_map>
+#include <string>
+
 class Configure {
   private:
     Configure();

@@ -11,7 +11,8 @@
 #include <mutex>
 #include <memory>
 #include "kvstore_base.h"
-#include "../third_party/sparsehash/include/sparsehash/sparse_hash_map"
+// #include "third_party/sparsehash/include/sparsehash/sparse_hash_map"
+#include <sparse_hash_map>
 
 namespace kvstore {
   template <typename Key, typename Value>

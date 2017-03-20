@@ -13,7 +13,7 @@
 #include "../conf/configure.h"
 
 // TODO 规划 id 分配
-namespace network {
+namespace net {
   void Communicator::PreStart() {
     // create communicator
     net_ = new ZMQ_NetWork;
