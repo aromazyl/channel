@@ -23,7 +23,8 @@ struct Location {
   int port;
 
   char ip[15];
-  ActorType type;
+  // Actor Type
+  int type;
   int type_id;
 };
 

@@ -105,14 +105,14 @@ namespace net {
     */
 
     // zmq_recv(socket, buf, sizeof(buf), 0);
-    zmq_msg_t msg;
-    int rc = zmq_msg_init(&msg);
+    zmq_msg_t rmsg;
+    int rc = zmq_msg_init(&rmsg);
     assert(rc == 0);
-    rc = zmq_recv(socket, &msg, 0);
+    rc = zmq_recv(socket, &rmsg, 0);
     assert(rc == 0);
-    zmq_msg_close(&msg);
-    size_t msg_size = zmq_msg_size(&msg);
-    char* buf = mem::Allocator::Get()->Alloc(zmq_msg_size(&msg));
+    zmq_msg_close(&rmsg);
+    size_t msg_size = zmq_msg_size(&rmsg);
+    char* buf = mem::Allocator::Get()->Alloc(zmq_msg_size(&rmsg));
 
     DeserializeMessage(&(*msg), buf, msg_size);
     mem::Allocator::Get()->Free(buf);

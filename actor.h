@@ -60,7 +60,7 @@ class Actor {
    Location id;
 
  protected:
-   std::map<MsgType, MessageHandler> handlers_;
+   std::unordered_map<int, MessageHandler> handlers_;
    msg::MessageHandler default_handler_;
    ThreadSafeQueue<MessagePtr> msgbox_;
    std::atomic<bool> is_running_;
