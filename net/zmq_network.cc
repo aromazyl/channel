@@ -5,10 +5,13 @@
  * Distributed under terms of the MIT license.
  */
 
+#include <glog/logging.h>
+#include <assert.h>
+#include <errno.h>
+#include <zmq.h>
+
 #include "zmq_network.h"
 #include "base/string_printf.hpp"
-#include <glog/logging.h>
-#include <errno.h>
 
 
 namespace net {

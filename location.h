@@ -9,6 +9,7 @@
 #define LOCATION_H
 
 // location info for actors
+#include <stdio.h>
 #include "base/string_printf.hpp"
 
 enum ActorType {
@@ -22,11 +23,24 @@ struct Location {
   // process port
   int port;
 
-  char ip[15];
+  int ip;
   // Actor Type
   int type;
   int type_id;
 };
+
+inline
+std::string PrintIp(int ip) {
+  return base::StringPrintf("%d.%d.%d.%d",
+      ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, (ip >> 24) & 0xff);
+}
+
+inline
+int RPrintIp(const std::string& ip) {
+  int a, b, c, d;
+  sscanf(ip.c_str(), "%d.%d.%d.%d", &a, &b, &c, &d);
+  return (a << 24) + (b << 16) + (c << 8) + d;
+}
 
 inline
 std::string DumpLocationInfo(const Location& loc) {
