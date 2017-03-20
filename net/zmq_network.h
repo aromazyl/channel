@@ -8,7 +8,7 @@
 #ifndef ZMQ_NETWORK_H
 #define ZMQ_NETWORK_H
 
-#include "./network.h"
+#include "network.h"
 #include <zmq.h>
 #include <unordered_map>
 #include <string>

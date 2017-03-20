@@ -10,7 +10,7 @@
 
 #include <string>
 #include <unordered_map>
-#include "../message.h"
+#include "message.h"
 
 namespace net {
 

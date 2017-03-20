@@ -6,7 +6,7 @@
  */
 
 #include "zmq_network.h"
-#include "../base/string_printf.hpp"
+#include "base/string_printf.hpp"
 #include <glog/logging.h>
 #include <errno.h>
 
@@ -73,10 +73,6 @@ namespace net {
     void* socket = node_table_[rank]->sender;
     int ret = zmq_send(socket, buf, size, 0);
     // int ret = zmq_send(socket, s_message, ZMQ_SNDMORE);
-    CHECK(ret != -1) <<
-      base::StringPrintf("header: buf[0]=%d,buf[1]=%d,buf[2]=%d,buf[3]=%d,send failure\n",
-        buf[0], buf[1], buf[2], buf[3]);
-
     // ret = zmq_send(socket, msg->blob.data(), msg->blob.size(), 0);
     // ret = zmq_send(socket, s_message, 0);
 
@@ -90,15 +86,15 @@ namespace net {
     if (!msg) msg.reset(new msg::Message);
 
     void* socket = self_entity_.receiver;
+    // TODO {receive message}
 
+    /*
 
     if ((int)msg->blob.size() != buf[3])
       msg->blob.resize(buf[3]);
 
     // int recv_size = zmq_recv(socket, buf, 4 * sizeof(int), 0);
-    int recv_size = zmq_recv(socket, buf, sizeof(buf), 0);
 
-    /*
     msg->blob.resize(buf[3]);
     recv_size = zmq_recv(socket, msg->blob.data(), buf[3], 0);
 
@@ -107,11 +103,25 @@ namespace net {
     msg->to   = buf[2];
 
     */
-    DeserializeMessage(&(*msg), buf, sizeof(buf));
+
+    // zmq_recv(socket, buf, sizeof(buf), 0);
+    zmq_msg_t msg;
+    int rc = zmq_msg_init(&msg);
+    assert(rc == 0);
+    rc = zmq_recv(socket, &msg, 0);
+    assert(rc == 0);
+    zmq_msg_close(&msg);
+    size_t msg_size = zmq_msg_size(&msg);
+    char* buf = mem::Allocator::Get()->Alloc(zmq_msg_size(&msg));
+
+    DeserializeMessage(&(*msg), buf, msg_size);
+    mem::Allocator::Get()->Free(buf);
+    /*
     CHECK(recv_size != -1) <<
       base::StringPrintf("socket:%p,"
           "receive blob data failure, data size:%d\n",
         socket, sizeof(buf));
+     */
   }
 
   int ZMQ_NetWork::NodeNums() const {

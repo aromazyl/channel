@@ -9,7 +9,7 @@
 #define LOCATION_H
 
 // location info for actors
-#include "./base/string_printf.hpp"
+#include "base/string_printf.hpp"
 
 enum ActorType {
   kServerGroup,
