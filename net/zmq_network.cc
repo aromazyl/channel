@@ -111,7 +111,7 @@ namespace net {
     zmq_msg_t rmsg;
     int rc = zmq_msg_init(&rmsg);
     assert(rc == 0);
-    rc = zmq_recv(socket, &rmsg, 0);
+    rc = zmq_recvmsg(socket, &rmsg, 0);
     assert(rc == 0);
     zmq_msg_close(&rmsg);
     size_t msg_size = zmq_msg_size(&rmsg);

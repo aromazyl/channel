@@ -10,13 +10,13 @@
 
 #include <mutex>
 #include <memory>
+// #include <sparsehash/sparse_hash_map>
+#include <unordered_map>
 #include "kvstore_base.h"
-// #include "third_party/sparsehash/include/sparsehash/sparse_hash_map"
-#include <sparse_hash_map>
 
 namespace kvstore {
   template <typename Key, typename Value>
-  class SparseHashKVStore : public KVStoreBase {
+  class SparseHashKVStore : public KVStoreBase<Key, Value> {
     public:
       const Value& Get(const Key& key) {
         return data_[key];
@@ -28,7 +28,8 @@ namespace kvstore {
 
     private:
       std::mutex mu_;
-      google::sparse_hash_map<Key, Value> data_;
+      // google::sparse_hash_map<Key, Value> data_;
+      std::unordered_map<Key, Value> data_;
   };
 }
 

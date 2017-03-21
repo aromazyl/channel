@@ -25,7 +25,7 @@ namespace kvstore {
 
     public:
       virtual void PreStart();
-      virtual void Receive(MessagePtr msg);
+      virtual void Receive(msg::MessagePtr msg);
       virtual void PostExit();
 
     private:
@@ -40,17 +40,17 @@ namespace kvstore {
       std::mutex lock_;
 
     private:
-      KVStoreBase* store_;
+      KVStoreBase<Key, Value>* store_;
   };
 
   template <typename Key, typename Value, typename Merger>
-    virtual void KVStoreActor::PreStart() {
-      network::Communicator::Get()->Register(this);
+    void KVStoreActor<Key, Value, Merger>::PreStart() {
+      net::Communicator::Get()->Register(this);
       store_ = new SparseHashKVStore<Key, Value>();
     }
 
   template <typename Key, typename Value, typename Merger>
-    virtual void KVStoreActor<Key, Value, Merger>::PostExit() {
+    void KVStoreActor<Key, Value, Merger>::PostExit() {
       delete store_;
     }
 

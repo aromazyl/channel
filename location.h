@@ -27,7 +27,29 @@ struct Location {
   // Actor Type
   int type;
   int type_id;
+
+  bool operator==(const Location& loc) const {
+    return this->rank == loc.rank &&
+      this->port == loc.port &&
+      this->ip == loc.ip &&
+      this->type == loc.type &&
+      this->type_id == loc.type_id;
+  }
 };
+
+namespace std {
+  template <> struct hash<Location> {
+    size_t operator()(const Location& loc) const {
+      size_t hash = 23;
+      hash = hash * 31 + loc.rank;
+      hash = hash * 31 + loc.port;
+      hash = hash * 31 + loc.ip;
+      hash = hash * 31 + loc.type;
+      hash = hash * 31 + loc.type_id;
+      return hash;
+    }
+  };
+}
 
 inline
 std::string PrintIp(int ip) {

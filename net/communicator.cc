@@ -19,12 +19,13 @@ namespace net {
     net_ = new ZMQ_NetWork;
     net_->Init(NULL, NULL);
 
-    CHECK(Configure::Get()->IsExistConf("NETWORK_TABLE"));
-    char ip_port[40];
-    int actor_id;
-    int net_id;
-    char type[10];
-    FILE* fs = fopen(Configure::Get()->GetConf("NETWORK_TABLE"), "r");
+    CHECK(Configure::Get()->IsExistConf("SCHEDULAR"));
+    // char ip_port[40];
+    // int actor_id;
+    // int net_id;
+    // char type[10];
+    FILE* fs = fopen(Configure::Get()->GetConf("SCHEDULAR").c_str(), "r");
+    /*
     while (fscanf(fs, "%s:%d:%d:%s\n", type, actor_id, net_id, ip_port)) {
       net_->RegisterNetNode(net_id, ip_port);
       if (std::string(type) == "local") {
@@ -36,11 +37,12 @@ namespace net {
         remote_[actor_id] = net_id;
       }
     }
+    */
     fclose(fs);
   }
 
   void Communicator::PostExit() {
-    running = false;
+    is_running_ = false;
   }
 
   void Communicator::Register(Actor* actor) {
@@ -51,7 +53,7 @@ namespace net {
     if (local_actors_.count(mmsg->to)) {
       local_actors_[mmsg->to]->Receive(mmsg);
     } else {
-      const int& remote_rank = remote_[mmsg->to];
+      const int& remote_rank = mmsg->to.rank;
       net_->Send(remote_rank, mmsg);
     }
   }

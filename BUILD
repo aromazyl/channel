@@ -3,13 +3,15 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "zmq",
     srcs = glob(["third_party/zmq/include/*.h"]),
-    copts = ["-L./third_party/zmq/lib/ -lzmq"],
+    copts = ["-L./third_party/zmq/lib/", "-lzmq"],
     )
 
 cc_library(
     name = "sparse_hash",
     srcs = glob(["third_party/sparsehash/include/google/sparsehash/*.h",
                  "third_party/sparsehash/include/sparsehash/internal/*.h"]),
+    includes = ["third_party/sparsehash/include/google/*",
+                "third_party/sparsehash/include/sparsehash/sparse_hash_map"]
     )
 
 cc_library(
@@ -62,8 +64,10 @@ cc_library(
             "net/network.h",
             "net/zmq_network.h",
             "conf/configure.h",
-            "message.h"],
-    includes = ["third_party/sparsehash/include/"],
+            "message.h",
+            ],
+    # includes = ["third_party/sparsehash/include/"],
+    copts = ["-Ithird_party/sparsehash/include/"],
     deps = [":memory",
             ":io",
             ":zmq",
