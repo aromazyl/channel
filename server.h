@@ -12,7 +12,11 @@
 #include "./kvstore/kvstore_actor.h"
 
 namespace customer {
-  using Server = kvstore::KVStoreActor<uint64_t, double>;
+  class Server : public Actor {
+    public:
+    private:
+      kvstore::KVStoreActor<uint64_t, double> kvstore_;
+  };
 }
 
 #endif /* !SERVER_H */
