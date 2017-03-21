@@ -17,7 +17,7 @@
 #include "../actor.h"
 
 namespace kvstore {
-  template <typename Key, typename Value, typename Merger>
+  template <typename Key, typename Value>
   class KVStoreActor : public msg::Actor {
     public:
       KVStoreActor(int id) { this->id = id; }
@@ -43,19 +43,19 @@ namespace kvstore {
       KVStoreBase<Key, Value>* store_;
   };
 
-  template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::PreStart() {
+  template <typename Key, typename Value>
+    void KVStoreActor<Key, Value>::PreStart() {
       net::Communicator::Get()->Register(this);
       store_ = new SparseHashKVStore<Key, Value>();
     }
 
-  template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::PostExit() {
+  template <typename Key, typename Value>
+    void KVStoreActor<Key, Value>::PostExit() {
       delete store_;
     }
 
-  template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::Pull(
+  template <typename Key, typename Value>
+    void KVStoreActor<Key, Value>::Pull(
         const std::vector<Key>& keys, msg::MessagePtr& values) {
       values->blob.resize(sizeof(Value) * keys.size() + sizeof(int));
       values->blob.data()[0] = keys.size();
@@ -66,8 +66,8 @@ namespace kvstore {
       }
     }
 
-  template <typename Key, typename Value, typename Merger>
-    void KVStoreActor<Key, Value, Merger>::Push(
+  template <typename Key, typename Value>
+    void KVStoreActor<Key, Value>::Push(
         const std::vector<Key>& keys, const std::vector<Value>& values) {
       for (size_t i = 0; i < keys.size(); ++i) {
         this->store_->Save(keys[i], values[i]);

@@ -20,6 +20,10 @@ namespace msg {
       virtual void PreStart();
       virtual void PostExit();
 
+    public:
+      void SendInfos(const Location& loc);
+      void ReceiveNodeInfoHandler(Message* message);
+
     private:
       void RegistActor(const msg::MessagePtr& message);
       void GetLocationTable(msg::MessagePtr message);

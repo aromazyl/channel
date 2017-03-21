@@ -20,24 +20,10 @@ namespace net {
     net_->Init(NULL, NULL);
 
     CHECK(Configure::Get()->IsExistConf("SCHEDULAR"));
-    // char ip_port[40];
-    // int actor_id;
-    // int net_id;
-    // char type[10];
     FILE* fs = fopen(Configure::Get()->GetConf("SCHEDULAR").c_str(), "r");
-    /*
-    while (fscanf(fs, "%s:%d:%d:%s\n", type, actor_id, net_id, ip_port)) {
-      net_->RegisterNetNode(net_id, ip_port);
-      if (std::string(type) == "local") {
-        if (!binded_) net_->Bind(net_id);
-      }
-
-      if (std::string(type) == "remote") {
-        net_->Connect(net_id);
-        remote_[actor_id] = net_id;
-      }
-    }
-    */
+    char ip[20];
+    int host;
+    sscanf(fs, "%s:%d", ip, &host);
     fclose(fs);
   }
 

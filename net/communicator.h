@@ -10,6 +10,7 @@
 
 #include <functional>
 #include "conf/configure.h"
+#include "net/control.h"
 #include "message.h"
 #include "actor.h"
 #include "location.h"
@@ -35,10 +36,16 @@ class Communicator : public msg::Actor {
     void SendTo(msg::MessagePtr msg);
 
   private:
+    void UpdateTableHandler(msg::Message*);
+    void StopActorHandler(msg::Message*);
+
+  private:
     // actors: Location Info to local actors
     std::unordered_map<Location, msg::Actor*> local_actors_;
-    // actor id to machine id
+    // actor id to machine info
     std::unordered_map<int, Location> remote_;
+    std::unordered_map<int, Location> server_table_;
+    std::unordered_map<int, Location> worker_table_;
     NetWork* net_;
     bool binded_ = false;
 };
