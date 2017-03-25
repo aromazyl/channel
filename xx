@@ -1,7 +1,0 @@
-____Loading package: 
-____Found 1 target...
-____Building...
-Target //:net up-to-date:
-  bazel-bin/libnet.a
-  bazel-bin/libnet.so
-____Elapsed time: 0.168s, Critical Path: 0.00s
