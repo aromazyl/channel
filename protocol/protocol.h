@@ -9,17 +9,14 @@
 #define BLOB_PROTOCAL_H
 
 #include <glog/logging.h>
-#include "./message.h"
+#include "message.h"
 
 namespace protocol {
   using namespace msg;
 
-  template <typename MSG_TYPE> struct Decoder;
+  template <MsgType type> struct Decoder;
 
-  template <typename Any> DecoderImpl;
-
-  template <typename MSG_TYPE> struct SendBlock;
-
+  template <MsgType type> struct Encoder;
 }
 
 #endif /* !BLOB_PROTOCAL_H */
