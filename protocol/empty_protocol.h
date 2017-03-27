@@ -15,7 +15,7 @@ namespace protocol {
   
   template <>
   struct Encoder<DEFAULT> {
-    bool Apply(const Location& from, const Location& to, void* buf, int size, Message** msg) {
+    static bool Apply(const Location& from, const Location& to, void* buf, int size, Message** msg) {
       if (*msg) return false;
       *msg = new Message;
       (*msg)->from = from;
@@ -28,7 +28,7 @@ namespace protocol {
   };
 
   struct Decoder<DEFAULT> {
-    bool Apply(const Message& msg, Location* from, Location* to, blob::Blob* blob) {
+    static bool Apply(const Message& msg, Location* from, Location* to, blob::Blob* blob) {
       if (!from) {
         LOG(ERROR) << "default message decode failure, from is empty";
         return false;

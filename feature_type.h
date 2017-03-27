@@ -10,10 +10,10 @@
 
 #include <vector>
 
+template <typename WeightType>
 struct Weights {
   std::vector<uint64_t> fid;
-  std::vector<int> lens;
-  std::vector<char> weights;
+  std::vector<WeightType> weights;
 };
 
 #endif /* !FEATURE_TYPE_H */

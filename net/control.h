@@ -19,7 +19,7 @@ class Controller {
   public:
     virtual void PushRequests(std::vector<uint64_t>& keys, std::vector<Message*>* messages) const;
     virtual void MergeRequests(const std::vector<Message*>& messages,
-        Weights* weights) const;
+        Weights<WeightType>* weights) const;
 };
 }
 
