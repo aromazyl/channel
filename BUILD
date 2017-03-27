@@ -23,7 +23,8 @@ cc_library(
                  "net/*.h",
                  "io/*.h",
                  "kvstore/*.h",
-                 "conf/*.h"]),
+                 "conf/*.h",
+                 "protocol/*.h"]),
     )
 cc_library(
     name = "memory",
@@ -74,6 +75,11 @@ cc_library(
             ":headers",
             ":sparse_hash"],
     )
+
+# cc_library(
+#     name = "protocol",
+#     srcs = []
+#     )
 
 cc_test(
     name = "test_all",

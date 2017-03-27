@@ -25,6 +25,9 @@ typedef std::shared_ptr<Message> MessagePtr;
 typedef std::function<void(Message*)> MessageHandler;
 
 enum MsgType {
+  BCAST_TABLE_REPLY = -9,
+  HEART_BEAT_ACK = -8,
+  SHUTDOWN_ACK = -7,
   REQUEST_ACTOR_TABLE_ACK = -6,
   REGIST_ACTOR_ACK = -5,
   CONTINUTE_ACK = -4,
@@ -38,6 +41,9 @@ enum MsgType {
   CONTINUTE = 4,
   REGIST_ACTOR = 5,
   REQUEST_ACTOR_TABLE = 6,
+  SHUTDOWN = 7,
+  HEART_BEAT = 8,
+  BCAST_TABLE = 9,
 };
 
 struct Message {

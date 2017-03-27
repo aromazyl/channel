@@ -8,11 +8,11 @@
 #ifndef SCHEDULAR_H
 #define SCHEDULAR_H
 
-#include <set>
+#include <unordered_set>
 
-#include "./actor.h"
-#include "./message.h"
-#include "./location.h"
+#include "actor.h"
+#include "message.h"
+#include "location.h"
 
 namespace msg {
   class Schedular : public Actor {
@@ -27,7 +27,7 @@ namespace msg {
     private:
       void RegistActor(const msg::MessagePtr& message);
       void GetLocationTable(msg::MessagePtr message);
-      std::set<Location> locations_;
+      std::unordered_set<Location> locations_;
       // set::set<int> registed_hosts_;
   };
 }

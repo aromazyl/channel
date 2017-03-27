@@ -54,6 +54,7 @@ namespace kvstore {
       delete store_;
     }
 
+  // TODO {zhangyule} replace deserilize by protocol
   template <typename Key, typename Value>
     void KVStoreActor<Key, Value>::Pull(
         const std::vector<Key>& keys, msg::MessagePtr& values) {
@@ -66,6 +67,7 @@ namespace kvstore {
       }
     }
 
+  // TODO {zhangyule} replace deserilize by protocol
   template <typename Key, typename Value>
     void KVStoreActor<Key, Value>::Push(
         const std::vector<Key>& keys, const std::vector<Value>& values) {

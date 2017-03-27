@@ -1,0 +1,36 @@
+...............
+____Loading package: 
+____Loading package: @bazel_tools//tools/cpp
+____Loading package: @local_config_xcode//
+____Loading package: @local_config_cc//
+____Loading complete.  Analyzing...
+____Found 1 target...
+____Building...
+____[0 / 9] BazelWorkspaceStatusAction stable-status.txt
+____[1 / 9] Compiling net/network.cc
+ERROR: /Users/aromazyl/code/channel/BUILD:58:1: C++ compilation of rule '//:net' failed: sandbox-exec failed: error executing command /usr/bin/sandbox-exec -f /private/var/tmp/_bazel_aromazyl/f85399e40425b6e463d162e292463c90/bazel-sandbox/a479e6e0-6b51-4432-ad92-9371fd983ce4-4/sandbox.sb external/local_config_cc/cc_wrapper.sh ... (remaining 41 argument(s) skipped).
+In file included from net/communicator.cc:8:
+In file included from net/communicator.h:13:
+./net/control.h:20:72: error: use of undeclared identifier 'Message'
+    virtual void PushRequests(std::vector<uint64_t>& keys, std::vector<Message*>* messages) const;
+                                                                       ^
+./net/control.h:20:80: error: expected expression
+    virtual void PushRequests(std::vector<uint64_t>& keys, std::vector<Message*>* messages) const;
+                                                                               ^
+./net/control.h:21:50: error: use of undeclared identifier 'Message'
+    virtual void MergeRequests(const std::vector<Message*>& messages,
+                                                 ^
+./net/control.h:21:58: error: expected expression
+    virtual void MergeRequests(const std::vector<Message*>& messages,
+                                                         ^
+net/communicator.cc:26:5: error: no matching function for call to 'sscanf'
+    sscanf(fs, "%s:%d", ip, &host);
+    ^~~~~~
+/usr/include/stdio.h:270:6: note: candidate function not viable: no known conversion from 'FILE *' (aka '__sFILE *') to 'const char *' for 1st argument
+int      sscanf(const char * __restrict, const char * __restrict, ...) __scanflike(2, 3);
+         ^
+5 errors generated.
+____Building complete.
+Target //:net failed to build
+Use --verbose_failures to see the command lines of failed build steps.
+____Elapsed time: 4.973s, Critical Path: 1.64s
