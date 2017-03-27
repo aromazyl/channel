@@ -12,11 +12,24 @@
 #include "message.h"
 
 namespace protocol {
-  using namespace msg;
+using namespace msg;
 
-  template <MsgType type> struct Decoder;
+template <MsgType type> struct Decoder;
 
-  template <MsgType type> struct Encoder;
+template <MsgType type> struct Encoder;
+
+inline void DecodeAddressInfo(const Message& msg, Location* from, Location* to) {
+  from = msg.from;
+  to = msg.to;
+}
+
+template <MsgType type>
+inline void EncodeAddressInfo(const Location& from, const Location& to, Message& msg) {
+  msg.from = from;
+  msg.to = to;
+  msg.type = type;
+}
+
 }
 
 #endif /* !BLOB_PROTOCAL_H */

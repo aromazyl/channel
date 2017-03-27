@@ -28,4 +28,16 @@ TEST_F(ProtocolTest, EmptyProtocol) {
 
 }
 
+TEST_F(ProtocolTest, BcastProtocol) {
+}
+
+TEST_F(ProtocolTest, HeartBeatProtocol) {
+}
+
+TEST_F(ProtocolTest, PullProtocol) {}
+
+TEST_F(ProtocolTest, PushProtocol) {}
+
+TEST_F(ProtocolTest, RegisterProtocol) {}
+
 #endif /* !PROTOCOL_TEST_H */
