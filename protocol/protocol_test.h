@@ -37,9 +37,10 @@ class ProtocolTest : public ::testing::Test {
     Location to;
 };
 
+TEST_F(ProtocolTest, BasicTest) {
+}
+
 TEST_F(ProtocolTest, EmptyProtocol) {
-  Message* msg = NULL;
-  EXPECT_TRUE();
 }
 
 TEST_F(ProtocolTest, BcastProtocol) {
@@ -53,5 +54,7 @@ TEST_F(ProtocolTest, PullProtocol) {}
 TEST_F(ProtocolTest, PushProtocol) {}
 
 TEST_F(ProtocolTest, RegisterProtocol) {}
+TEST_F(ProtocolTest, CommandProtocol) {}
+
 
 #endif /* !PROTOCOL_TEST_H */
