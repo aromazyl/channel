@@ -13,7 +13,7 @@ using namespace msg;
 
 template <>
 struct Encoder<BCAST_TABLE> {
-  bool Apply(const Location& from, const Location& to,
+  static bool Apply(const Location& from, const Location& to,
       std::vector<Location>& locs, Message** msg) {
     if (!*msg) *msg = new Message;
     (*msg)->type = BCAST_TABLE;
@@ -29,7 +29,8 @@ struct Encoder<BCAST_TABLE> {
 
 template <>
 struct Decoder<BCAST_TABLE> {
-  bool Apply(const Message& msg, Location* from, Location* to, std::vector<Location>* locs) {
+  static bool Apply(const Message& msg, Location* from,
+      Location* to, std::vector<Location>* locs) {
     if (!from || !to || !locs) {
       LOG(ERROR) << "from or to or locs is empty, bcast table decode failure";
       return false;
