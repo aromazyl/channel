@@ -23,7 +23,7 @@ namespace net {
     FILE* fs = fopen(Configure::Get()->GetConf("SCHEDULAR").c_str(), "r");
     char ip[20];
     int host;
-    sscanf(fs, "%s:%d", ip, &host);
+    fscanf(fs, "%s:%d", ip, &host);
     fclose(fs);
   }
 

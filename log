@@ -3,23 +3,21 @@ ____Found 1 test target...
 ____From Compiling test/test.cc:
 In file included from test/test.cc:15:
 In file included from ./protocol/protocol_test.h:20:
-./meta_template.h:61:18: warning: implicit conversion from 'int' to 'char' changes value from 275 to 19 [-Wconstant-conversion]
+./meta_template.h:56:18: warning: implicit conversion from 'int' to 'char' changes value from 275 to 19 [-Wconstant-conversion]
     return Value + 0xff;
     ~~~~~~ ~~~~~~^~~~~~
 ./protocol/protocol_test.h:52:3: note: in instantiation of member function 'Print<20>::operator char' requested here
   __print(sizeof_emsg_to, sizeof(emsg.to));
   ^
-./meta_template.h:65:61: note: expanded from macro '__print'
+./meta_template.h:60:61: note: expanded from macro '__print'
 #define __print(token, ...) do { char print_value_##token = Print<__VA_ARGS__>(); \
                                                             ^
 1 warning generated.
-____From Linking test_all:
-clang: warning: argument unused during compilation: '-pthread'
 FAIL: //:test_all (see /private/var/tmp/_bazel_aromazyl/f85399e40425b6e463d162e292463c90/execroot/channel/bazel-out/local-fastbuild/testlogs/test_all/test.log)
 Target //:test_all up-to-date:
   bazel-bin/test_all
-____Elapsed time: 1.934s, Critical Path: 1.78s
-//:test_all                                                              FAILED in 0.0s
+____Elapsed time: 1.532s, Critical Path: 1.36s
+//:test_all                                                              FAILED in 0.1s
   /private/var/tmp/_bazel_aromazyl/f85399e40425b6e463d162e292463c90/execroot/channel/bazel-out/local-fastbuild/testlogs/test_all/test.log
 
 Executed 1 out of 1 test: 1 fails locally.

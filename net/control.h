@@ -13,6 +13,7 @@
 #include "message.h"
 #include "feature_type.h"
 
+/*
 namespace net {
 template <typename WeightType>
 class Controller {
@@ -22,5 +23,6 @@ class Controller {
         Weights<WeightType>* weights) const;
 };
 }
+*/
 
 #endif /* !CONTROL_H */
