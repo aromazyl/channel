@@ -89,6 +89,7 @@ cc_test(
     deps = [":memory",
             ":io",
             "@gtest//:main",
+            ":net",
             ":headers",
             ],
     )
