@@ -53,7 +53,7 @@ namespace protocol {
       keys->resize(msg.blob.size() / sizeof(Key));
 
       for (int i = 0; i < msg.blob.size() / sizeof(Key); ++i) {
-        keys[i] = (int*)(msg.blob.data())[i];
+        keys[i] = reinterpret_cast<int*>(msg.blob.data())[i];
       }
 
       return true;

@@ -29,9 +29,9 @@ class MessageTest : public ::testing::Test {
 
 TEST_F(MessageTest, SerializeTest) {
   Message message;
-  message.type = 0;
-  message.from = Location{0, 1080, "255.255.252.255", kServerGroup, 15};
-  message.to   = Location{1, 1010, "250.222,202,1", kWorkerGroup, 0};
+  message.type = (MsgType)0;
+  message.from = Location{0, 1080, 0, kServerGroup, 15};
+  message.to   = Location{1, 1010, 0, kWorkerGroup, 0};
   char buf1[100] = "hello world";
   message.blob.CopyFrom(buf1, 100);
   void* buf = NULL; int size = 0;

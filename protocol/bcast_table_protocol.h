@@ -8,6 +8,8 @@
 #ifndef BCAST_TABLE_PROTOCOL_H
 #define BCAST_TABLE_PROTOCOL_H
 
+#include <string.h>
+
 namespace protocol {
 using namespace msg;
 
@@ -17,12 +19,12 @@ struct Encoder<BCAST_TABLE> {
       std::vector<Location>& locs, Message** msg) {
     if (!*msg) *msg = new Message;
     (*msg)->type = BCAST_TABLE;
-    (*msg)->from = *from;
-    (*msg)->to   = *to;
+    (*msg)->from = from;
+    (*msg)->to   = to;
     (*msg)->blob.resize(locs.size() * sizeof(Location) + sizeof(int));
     char* p = (char*)((*msg)->blob.data());
     *(int*)p = (int)locs.size();
-    memcpy(p + sizeof(int), locs[0], sizeof(Location) * locs.size());
+    memcpy(p + sizeof(int), &locs[0], sizeof(Location) * locs.size());
     return true;
   }
 };

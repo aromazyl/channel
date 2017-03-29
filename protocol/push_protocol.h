@@ -52,7 +52,7 @@ namespace protocol {
         return false;
       }
 
-      int num = (int*)(msg.blob.data())[0];
+      int num = reinterpret_cast<int*>(msg.blob.data())[0];
       keys->resize(num);
       vals->resize(num);
       Key* k = (Key*)((char*)(msg.blob.data()) + sizeof(int));
@@ -67,5 +67,3 @@ namespace protocol {
 }
 
 #endif /* !PULL_PROTOCAL_H */
-
-#endif /* !PUSH_PROTOCOL_H */

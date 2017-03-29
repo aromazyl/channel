@@ -19,8 +19,8 @@ template <MsgType type> struct Decoder;
 template <MsgType type> struct Encoder;
 
 inline void DecodeAddressInfo(const Message& msg, Location* from, Location* to) {
-  from = msg.from;
-  to = msg.to;
+  *from = msg.from;
+  *to = msg.to;
 }
 
 template <MsgType type>

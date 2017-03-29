@@ -8,7 +8,6 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-namespace proto {
 template <int Val>
 struct IntType {
   enum { Value = Val };
@@ -19,17 +18,17 @@ struct BoolType;
 
 template <>
 struct BoolType<true> {
-  using Result = typename IntType<true>::Value;
+  using Result = IntType<true>;
 };
 
 template <>
 struct BoolType<false> {
-  using Result = typename IntType<false>::Value;
+  using Result = IntType<false>;
 };
 
 template <typename T1, typename T2>
 struct IsSameType {
-  using Result = BoolType<false>
+  using Result = BoolType<false>;
 };
 
 template <typename T>
@@ -40,12 +39,8 @@ struct IsSameType<T, T> {
 template <typename T, typename ActA, typename ActB>
 struct IfThenElse;
 
-template <bool type>
+template <bool type, typename ActA, typename ActB>
 struct IfThenElse<BoolType<type>, ActA, ActB> {
-};
-
-template <typename ActA, typename ActB>
-struct IfThenElse<BoolType<true>, ActA, ActB> {
   using Result = typename ActA::Result;
 };
 
@@ -53,5 +48,16 @@ template <typename ActA, typename ActB>
 struct IfThenElse<BoolType<false>, ActA, ActB> {
   using Result = typename ActB::Result;
 };
+
+// static show
+template <int Value>
+struct Print {
+  operator char() {
+    return Value + 0xff;
+  }
+};
+
+#define __print(token, ...) do { char print_value_##token = Print<__VA_ARGS__>(); \
+  print_value_##token = 0; } while (0)
 
 #endif /* !MESSAGE_H */

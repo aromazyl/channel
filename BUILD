@@ -23,6 +23,7 @@ cc_library(
                  "net/*.h",
                  "io/*.h",
                  "kvstore/*.h",
+                 "memory/*.h",
                  "conf/*.h",
                  "protocol/*.h"]),
     )

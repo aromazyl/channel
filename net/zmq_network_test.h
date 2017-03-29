@@ -41,20 +41,20 @@ TEST_F(ZMQNETWORKTesting, NetWorkSendingFunctionTest) {
   msg::MessagePtr msg_ptr;
   msg_ptr.reset(new msg::Message);
   msg_ptr->type = msg::PULL;
-  msg_ptr->from = 1;
-  msg_ptr->to = 0;
+  msg_ptr->from = {0, 0, 0, 0, 0};
+  msg_ptr->to = {1, 1, 1, 1 ,1};
 
   msg_ptr->blob.resize(1000);
   char test_buf[100] = "only for test";
   msg_ptr->blob.CopyFrom(test_buf, 100);
   LOG(INFO) << base::StringPrintf("blob:%s\n", msg_ptr->blob.data());
   msg_ptr->type = msg::MsgType(0);
-  msg_ptr->from = 0;
-  msg_ptr->to = 1;
+  msg_ptr->from = {0, 0, 0, 0, 0};
+  msg_ptr->to = {1, 1, 1, 1, 1};
   zmq_network->Send(1, msg_ptr);
   msg::MessagePtr recv_msg;
   zmq_network->Receive(recv_msg);
-  LOG(INFO) << base::StringPrintf("type:%d, from:%d, to:%d, info:%s\n",
+  LOG(INFO) << base::StringPrintf("type:%d, from:%s, to:%s, info:%s\n",
       recv_msg->type, recv_msg->from, recv_msg->to, recv_msg->blob.data());
 }
 

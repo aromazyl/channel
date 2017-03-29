@@ -22,12 +22,13 @@ struct Encoder<DEFAULT> {
     (*msg)->from = from;
     (*msg)->to = to;
     (*msg)->blob.resize(size);
-    (*msg)->blob.CopyFrom(buf, size);
+    (*msg)->blob.CopyFrom((char*)buf, size);
     (*msg)->type = DEFAULT;
     return true;
   }
 };
 
+template <>
 struct Decoder<DEFAULT> {
   static bool Apply(const Message& msg, Location* from, Location* to, blob::Blob* blob) {
     if (!from) {

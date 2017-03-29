@@ -16,7 +16,11 @@
 #include "message.h"
 #include "protocols.h"
 #include "location.h"
+#include "base/string_printf.hpp"
+#include "meta_template.h"
 
+namespace msg {
+using namespace protocol;
 class ProtocolTest : public ::testing::Test {
   public:
     void SetUp() {
@@ -43,10 +47,11 @@ TEST_F(ProtocolTest, BasicTest) {
   emsg.from = from;
   emsg.to = to;
   DecodeAddressInfo(emsg, &from, &to);
-  EEXPECT_EQ(emsg.from, from);
+  EXPECT_EQ(emsg.from, from);
   EXPECT_EQ(emsg.to, to);
-  static_assert(sizeof(emsg) == sizeof(int) * 5, base::StringPrintf("emsg size:%d, "
-        "sizeof(int)*5 size:%d\n", sizeof(emsg), sizeof(int) * 5));
+  __print(sizeof_emsg_to, sizeof(emsg.to));
+  __print(sizeof_int_5, sizeof(int) * 5);
+  static_assert(sizeof(emsg.to) == sizeof(int) * 5, "emsg size is not equal to int size");
 }
 
 TEST_F(ProtocolTest, EmptyProtocol) {
@@ -57,7 +62,7 @@ TEST_F(ProtocolTest, EmptyProtocol) {
   EXPECT_TRUE(Encoder<DEFAULT>::Apply(from, to, buf, size, &msg));
   Location from1, to1;
   blob::Blob blob;
-  EXPECT_TRUE(Encoder<Decoder>::Apply(*msg, &from1, &to1, &blob));
+  EXPECT_TRUE(Decoder<DEFAULT>::Apply(*msg, &from1, &to1, &blob));
   EXPECT_EQ(from, from1);
   EXPECT_EQ(to, to1);
   EXPECT_TRUE(!strcmp((char*)blob.data(), (char*)(msg->blob.data())));
@@ -92,6 +97,7 @@ TEST_F(ProtocolTest, RegisterProtocol) {
 }
 
 TEST_F(ProtocolTest, CommandProtocol) {
+}
 }
 
 
