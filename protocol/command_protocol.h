@@ -18,8 +18,8 @@ static int Command = INT_MAX;
 
 template <MsgType CMD>
 struct Encoder {
-  bool Apply(const Location& from, const Location& to,
-      std::vector<Location>& locs, Message** msg) {
+  static bool Apply(const Location& from, const Location& to,
+      Message** msg) {
     if (!*msg) *msg = new Message;
     EncodeAddressInfo<CMD>(from, to, *msg);
     return true;
@@ -28,7 +28,7 @@ struct Encoder {
 
 template <MsgType CMD>
 struct Decoder {
-  bool Apply(const Message& msg, Location* from, Location* to) {
+  static bool Apply(const Message& msg, Location* from, Location* to) {
     if (!from || !to) {
       LOG(ERROR) << "from or to is empyt, command " <<
         CMD << " decode failure.";

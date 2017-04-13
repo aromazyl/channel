@@ -27,7 +27,7 @@ namespace msg {
     private:
       void RegistActor(const msg::MessagePtr& message);
       void GetLocationTable(msg::MessagePtr message);
-      std::unordered_set<Location> locations_;
+      std::vector<Location> locations_;
       // set::set<int> registed_hosts_;
   };
 }

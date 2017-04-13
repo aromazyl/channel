@@ -13,8 +13,6 @@
 #include "protocol/push_protocol.h"
 #include "protocol/empty_protocol.h"
 #include "protocol/command_protocol.h"
-#include "protocol/register_protocol.h"
-#include "protocol/heart_beat_protocol.h"
 #include "protocol/bcast_table_protocol.h"
 
 #endif /* !PROTOCOLS_H */
