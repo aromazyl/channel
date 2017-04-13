@@ -72,7 +72,7 @@ TEST_F(ProtocolTest, EmptyProtocol) {
 TEST_F(ProtocolTest, BcastProtocol) {
   std::vector<Location> locations = {
     {0, 123, 0, 0, 0}, {1, 12, 1, 1, 1},
-    {12, 3, 11, 1231121, 123121}, {12, 0, INT_MAX, INT_MAX}
+    {12, 3, 11, 1231121, 123121}, {12, 0, INT_MAX, INT_MAX, INT_MAX}
   };
   std::vector<Location> reply_locs;
   Message* msg = NULL;
@@ -85,12 +85,28 @@ TEST_F(ProtocolTest, BcastProtocol) {
 }
 
 TEST_F(ProtocolTest, HeartBeatProtocol) {
+  Message* msg = NULL;
+  EXPECT_TRUE(Encoder<HEART_BEAT>::Apply(from, to, &msg));
+  Location from1, to1;
+  EXPECT_TRUE(Decoder<HEART_BEAT>::Apply(*msg, &from1, &to1));
+  EXPECT_EQ(from, from1);
+  EXPECT_EQ(to, to1);
 }
 
 TEST_F(ProtocolTest, PullProtocol) {
+  Message* msg = NULL;
+  std::vector<uint64_t> keys = {1,2,3,4,5,-1,-2};
+  std::vector<uint64_t> keys1;
+  EXPECT_TRUE(Encoder<PULL>::Apply<uint64_t>(from, to, keys, &msg));
+  Location from1, to1;
+  EXPECT_TRUE(Decoder<PULL>::Apply<uint64_t>(*msg, &from1, &to1, &keys1));
+  EXPECT_EQ(from, from1);
+  EXPECT_EQ(to, to1);
+  EXPECT_EQ(keys, keys1);
 }
 
 TEST_F(ProtocolTest, PushProtocol) {
+  Encoder<PUSH>::
 }
 
 TEST_F(ProtocolTest, RegisterProtocol) {

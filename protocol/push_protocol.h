@@ -18,7 +18,7 @@ namespace protocol {
   template <>
   struct Encoder<PUSH> {
     template <typename Key, typename Val>
-    bool Apply(const Location& from, const Location& to,
+    static bool Apply(const Location& from, const Location& to,
         const std::vector<Key>& keys, const std::vector<Val>& vals, Message** msg) {
       if (!(*msg)) *msg = new Message;
       (*msg)->type = PUSH;
@@ -33,7 +33,7 @@ namespace protocol {
   template <>
   struct Decoder<PUSH> {
     template <typename Key, typename Val>
-    bool Apply(const Message& msg, Location* from,
+    static bool Apply(const Message& msg, Location* from,
         Location* to, std::vector<Key>* keys, std::vector<Val>* vals) {
       if (!from || !to) {
         LOG(ERROR) << "from or to is empty. decode failure.";

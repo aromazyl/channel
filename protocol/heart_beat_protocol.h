@@ -15,7 +15,7 @@ namespace protocol {
 
 template <>
 struct Encoder<HEART_BEAT> {
-  bool Apply(const Location& from, const Location& to, Message** msg) {
+  static bool Apply(const Location& from, const Location& to, Message** msg) {
     if (*msg) return false;
     *msg = new Message;
     (*msg)->from = from;
@@ -27,7 +27,7 @@ struct Encoder<HEART_BEAT> {
 
 template <>
 struct Decoder<HEART_BEAT> {
-  bool Apply(const Message& msg, Location* from, Location* to) {
+  static bool Apply(const Message& msg, Location* from, Location* to) {
     if (!from || !to) {
       LOG(ERROR) << "heart beat decode from or to is empty";
       return false;
